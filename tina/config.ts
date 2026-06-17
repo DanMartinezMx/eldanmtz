@@ -73,35 +73,12 @@ export default defineConfig({
         fields: [
           { name: "title", type: "string", required: true, isTitle: true },
           { name: "createdAt", type: "datetime", required: true },
-          { name: "body", type: "rich-text", isBody: true },
-        ],
-      },
-      {
-        name: "guia",
-        label: "Guías",
-        path: "content/guias",
-        format: "mdx",
-        ui: {
-          filename: {
-            readonly: false,
-            slugify: (values) =>
-              values?.title?.toLowerCase().replace(/ /g, "-").replace(/[^a-z0-9-]/g, "") || "",
-          },
-        },
-        fields: [
-          { name: "title", type: "string", required: true, isTitle: true },
-          { name: "createdAt", type: "datetime", required: true },
-          { name: "updatedAt", type: "datetime" },
-          { name: "description", type: "string", required: true, ui: { component: "textarea" } },
           {
-            name: "difficulty",
+            name: "body",
             type: "string",
-            options: ["principiante", "intermedio", "avanzado"],
+            ui: { component: "textarea" },
+            isBody: true,
           },
-          { name: "tags", type: "string", list: true },
-          { name: "draft", type: "boolean" },
-          { name: "image", type: "string" },
-          { name: "body", type: "rich-text", isBody: true },
         ],
       },
     ],
