@@ -3,106 +3,114 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Suspense } from "react";
 
+export default function BlogPageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BlogPage />
+    </Suspense>
+  );
+}
 interface Post {
-    title: string;
-    description: string;
-    category: string;
-    createdAt: string;
-    slug: string;
-    draft: boolean;
+  title: string;
+  description: string;
+  category: string;
+  createdAt: string;
+  slug: string;
+  draft: boolean;
 }
 
 const categories = [
-    "Todas",
-    "Recomendaciones",
-    "Random",
-    "Personal",
-    "Cine y TV",
-    "Juegos",
-    "Viajes",
-    "Tech",
-    "Foodies",
-    "Coding",
-    "Connie",
+  "Todas",
+  "Recomendaciones",
+  "Random",
+  "Personal",
+  "Cine y TV",
+  "Juegos",
+  "Viajes",
+  "Tech",
+  "Foodies",
+  "Coding",
+  "Connie",
 ];
 
 export default function BlogPage() {
-    const searchParams = useSearchParams();
-    const initialCategory = searchParams.get("category") || "Todas";
-    const [selectedCategory, setSelectedCategory] = useState(initialCategory);
-    const [posts, setPosts] = useState<Post[]>([]);
+  const searchParams = useSearchParams();
+  const initialCategory = searchParams.get("category") || "Todas";
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [posts, setPosts] = useState<Post[]>([]);
 
-    useEffect(() => {
-        fetch("/api/posts")
-            .then((res) => res.json())
-            .then((data) => setPosts(data))
-            .catch(() => { });
-    }, []);
+  useEffect(() => {
+    fetch("/api/posts")
+      .then((res) => res.json())
+      .then((data) => setPosts(data))
+      .catch(() => { });
+  }, []);
 
-    const filtered =
-        selectedCategory === "Todas"
-            ? posts
-            : posts.filter((p) => p.category === selectedCategory);
+  const filtered =
+    selectedCategory === "Todas"
+      ? posts
+      : posts.filter((p) => p.category === selectedCategory);
 
-    // Group by year
-    const grouped = filtered.reduce<Record<string, Post[]>>((acc, post) => {
-        const year = new Date(post.createdAt).getFullYear().toString();
-        if (!acc[year]) acc[year] = [];
-        acc[year].push(post);
-        return acc;
-    }, {});
+  // Group by year
+  const grouped = filtered.reduce<Record<string, Post[]>>((acc, post) => {
+    const year = new Date(post.createdAt).getFullYear().toString();
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(post);
+    return acc;
+  }, {});
 
-    const sortedYears = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
+  const sortedYears = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
 
-    return (
-        <div className="blog-page">
-            <div className="blog-layout">
-                {/* Filters sidebar */}
-                <aside className="blog-filters">
-                    <h3>Categorías</h3>
-                    <div className="category-list">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat}
-                                onClick={() => setSelectedCategory(cat)}
-                                className={`category-btn ${selectedCategory === cat ? "active" : ""}`}
-                            >
-                                {cat}
-                            </button>
-                        ))}
+  return (
+    <div className="blog-page">
+      <div className="blog-layout">
+        {/* Filters sidebar */}
+        <aside className="blog-filters">
+          <h3>Categorías</h3>
+          <div className="category-list">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`category-btn ${selectedCategory === cat ? "active" : ""}`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </aside>
+
+        {/* Posts timeline */}
+        <div className="blog-posts">
+          <h1>Blog</h1>
+          {sortedYears.map((year) => (
+            <div key={year} className="year-group">
+              <h2 className="year-heading">{year}</h2>
+              <div className="year-posts">
+                {grouped[year].map((post) => (
+                  <Link key={post.slug} href={`/blog/${post.slug}`} className="blog-post-item">
+                    <div className="post-info">
+                      <span className="post-title">{post.title}</span>
+                      <span className="post-category">{post.category}</span>
                     </div>
-                </aside>
-
-                {/* Posts timeline */}
-                <div className="blog-posts">
-                    <h1>Blog</h1>
-                    {sortedYears.map((year) => (
-                        <div key={year} className="year-group">
-                            <h2 className="year-heading">{year}</h2>
-                            <div className="year-posts">
-                                {grouped[year].map((post) => (
-                                    <Link key={post.slug} href={`/blog/${post.slug}`} className="blog-post-item">
-                                        <div className="post-info">
-                                            <span className="post-title">{post.title}</span>
-                                            <span className="post-category">{post.category}</span>
-                                        </div>
-                                        <time>
-                                            {new Date(post.createdAt).toLocaleDateString("es-MX", {
-                                                month: "short",
-                                                day: "numeric",
-                                            })}
-                                        </time>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                    {filtered.length === 0 && <p className="empty">No hay posts en esta categoría.</p>}
-                </div>
+                    <time>
+                      {new Date(post.createdAt).toLocaleDateString("es-MX", {
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </time>
+                  </Link>
+                ))}
+              </div>
             </div>
+          ))}
+          {filtered.length === 0 && <p className="empty">No hay posts en esta categoría.</p>}
+        </div>
+      </div>
 
-            <style>{`
+      <style>{`
         .blog-layout {
           display: grid;
           grid-template-columns: 200px 1fr;
@@ -204,6 +212,6 @@ export default function BlogPage() {
           }
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 }
