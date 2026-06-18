@@ -1,21 +1,28 @@
-import { client } from "@/lib/tina";
 import { NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+
+const microblogDir = path.join(process.cwd(), "content/microblog");
 
 export async function GET() {
-    try {
-        const res = await client.queries.microblogConnection({
-            sort: "createdAt",
-            last: 10,
-        });
-
-        const entries = res.data.microblogConnection.edges?.map((e) => ({
-            title: e?.node?.title,
-            createdAt: e?.node?.createdAt,
-            slug: e?.node?._sys.filename,
-        })) || [];
-
-        return NextResponse.json(entries);
-    } catch {
+    if (!fs.existsSync(microblogDir)) {
         return NextResponse.json([]);
     }
+
+    const files = fs.readdirSync(microblogDir).filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
+
+    const posts = files.map((file) => {
+        const raw = fs.readFileSync(path.join(microblogDir, file), "utf-8");
+        const { data, content } = matter(raw);
+        return {
+            title: data.title || "",
+            createdAt: data.createdAt || "",
+            body: content.trim(),
+            slug: file.replace(/\.(mdx|md)$/, ""),
+        };
+    });
+
+    posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return NextResponse.json(posts);
 }

@@ -1,74 +1,94 @@
-import { client } from "@/lib/tina";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
 import { ContributionsCalendar } from "@/components/ContributionsCalendar";
 import Link from "next/link";
 
-async function getPosts() {
-  try {
-    const res = await client.queries.postConnection({
-      sort: "createdAt",
-      last: 10,
-      filter: { draft: { eq: false } },
-    });
-    return res.data.postConnection.edges?.map((e) => e?.node) || [];
-  } catch {
-    return [];
-  }
+function getPosts(limit?: number) {
+  const postsDir = path.join(process.cwd(), "content/posts");
+  if (!fs.existsSync(postsDir)) return [];
+
+  const files = fs.readdirSync(postsDir).filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
+  const posts = files.map((file) => {
+    const raw = fs.readFileSync(path.join(postsDir, file), "utf-8");
+    const { data } = matter(raw);
+    return {
+      title: data.title || "",
+      createdAt: data.createdAt ? new Date(data.createdAt).toISOString() : "",
+      slug: file.replace(/\.(mdx|md)$/, ""),
+      draft: data.draft || false,
+    };
+  });
+
+  const published = posts
+    .filter((p) => !p.draft && p.createdAt)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  return limit ? published.slice(0, limit) : published;
 }
 
-export default async function Home() {
-  const posts = await getPosts();
-  const postDates = posts.map((p) => p?.createdAt || "").filter(Boolean);
+function getMicroblog(limit?: number) {
+  const dir = path.join(process.cwd(), "content/microblog");
+  if (!fs.existsSync(dir)) return [];
+
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
+  const posts = files.map((file) => {
+    const raw = fs.readFileSync(path.join(dir, file), "utf-8");
+    const { data, content } = matter(raw);
+    return {
+      title: data.title || "",
+      createdAt: data.createdAt ? new Date(data.createdAt).toISOString() : "",
+      body: content.trim(),
+    };
+  });
+
+  const sorted = posts
+    .filter((p) => p.createdAt)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  return limit ? sorted.slice(0, limit) : sorted;
+}
+
+export default function Home() {
+  const recentPosts = getPosts(5);
+  const recentMicroblog = getMicroblog(5);
+
+  // All dates for the contributions calendar
+  const allDates = [
+    ...getPosts().map((p) => p.createdAt),
+    ...getMicroblog().map((p) => p.createdAt),
+  ].filter(Boolean);
 
   return (
     <div className="home">
-      {/* Intro */}
       <section className="intro">
-        <h1>Hola, soy Dan 👋</h1>
-        <p>
-          Escribo sobre tech, cocina, gaming, viajes y la vida en general.
-          Bienvenido a mi rincón del internet.
-        </p>
+        <h1>Daniel Martinez</h1>
+        <p>Support Engineer @ Atlassian</p>
       </section>
 
-      {/* Half and half layout */}
-      <section className="split-layout">
-        <div className="split-left">
-          <h2>Escritos recientes</h2>
-          <div className="recent-posts">
-            {posts.length === 0 && <p className="empty">Próximamente...</p>}
-            {posts.map((post) => (
-              <Link
-                key={post?._sys.filename}
-                href={`/blog/${post?._sys.filename}`}
-                className="recent-post"
-              >
-                <span className="post-title">{post?.title}</span>
-                <time>
-                  {post?.createdAt
-                    ? new Date(post.createdAt).toLocaleDateString("es-MX", {
-                      month: "short",
-                      day: "numeric",
-                    })
-                    : ""}
-                </time>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <div className="split-right">
-          <h2>Mi vida</h2>
-          <div className="life-links">
-            <Link href="/now" className="life-link">⚡ Now</Link>
-            <Link href="/blog?category=Personal" className="life-link">📝 Personal</Link>
-            <Link href="/about" className="life-link">👤 Sobre mí</Link>
-          </div>
-        </div>
+      <section className="recent-posts">
+        <h2>Blog</h2>
+        {recentPosts.map((post) => (
+          <Link key={post.slug} href={`/blog/${post.slug}`} className="post-link">
+            <span>{post.title}</span>
+            <time>{new Date(post.createdAt).toLocaleDateString("es-MX", { month: "short", day: "numeric" })}</time>
+          </Link>
+        ))}
+        <Link href="/blog" className="see-all">Ver todos →</Link>
       </section>
 
-      {/* Contributions Calendar */}
-      <ContributionsCalendar postDates={postDates} />
+      <section className="microblog">
+        <h2>Microblog</h2>
+        {recentMicroblog.map((post, i) => (
+          <div key={i} className="micro-entry">
+            <strong>{post.title}</strong>
+            <p>{post.body}</p>
+            <time>{new Date(post.createdAt).toLocaleDateString("es-MX", { month: "short", day: "numeric" })}</time>
+          </div>
+        ))}
+      </section>
 
+      <ContributionsCalendar postDates={allDates} />
       <style>{`
         .home {
           max-width: 800px;
