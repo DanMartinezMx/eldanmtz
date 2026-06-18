@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import type { Metadata } from "next";
 import { BlogFilters } from "@/components/BlogFilters";
 
+
 export const metadata: Metadata = {
   title: "Blog — Dan Mtz.",
   description: "Posts sobre tech, cocina, gaming, viajes y la vida.",

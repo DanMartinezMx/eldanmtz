@@ -3,6 +3,8 @@ import path from "path";
 import matter from "gray-matter";
 import { ContributionsCalendar } from "@/components/ContributionsCalendar";
 import Link from "next/link";
+import "./globals.css";
+
 
 function getPosts() {
   const postsDir = path.join(process.cwd(), "content/posts");
