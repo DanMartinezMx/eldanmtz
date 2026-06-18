@@ -3,60 +3,79 @@ import { TinaMarkdown } from "tinacms/dist/rich-text";
 import Link from "next/link";
 
 interface Props {
-    params: Promise<{ slug: string }>;
+  params: Promise<{ filename: string }>;
+}
+
+export async function generateStaticParams() {
+  const res = await client.queries.postConnection();
+  const posts = res.data.postConnection.edges || [];
+  return posts
+    .filter((e) => e?.node)
+    .map((e) => ({ filename: e!.node!._sys.filename }));
 }
 
 export default async function BlogPost({ params }: Props) {
-    const { slug } = await params;
+  const { filename } = await params;
 
-    let post: any;
+  let post: any = null;
+  try {
+    const res = await client.queries.post({ relativePath: `${filename}.mdx` });
+    post = res.data.post;
+  } catch (e) {
+    // Try .md if .mdx fails
     try {
-        const res = await client.queries.post({ relativePath: `${slug}.mdx` });
-        post = res.data.post;
+      const res = await client.queries.post({ relativePath: `${filename}.md` });
+      post = res.data.post;
     } catch {
-        return <div>Post not found</div>;
+      // post stays null
     }
+  }
 
+  if (!post) {
     return (
-        <article className="blog-post">
-            <Link href="/blog" className="back-link">← Volver al blog</Link>
+      <div>
+        <h1>Post not found</h1>
+        <Link href="/blog">← Volver al blog</Link>
+      </div>
+    );
+  }
 
-            {post.image && (
-                <img src={post.image} alt={post.title} className="post-image" />
-            )}
+  return (
+    <article className="blog-post">
+      <Link href="/blog" className="back-link">← Volver al blog</Link>
 
-            <h1>{post.title}</h1>
+      {post.image && (
+        <img src={post.image} alt={post.title} className="post-image" />
+      )}
 
-            <div className="post-meta">
-                <time>
-                    {new Date(post.createdAt).toLocaleDateString("es-MX", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                    })}
-                </time>
-                <span className="post-category">{post.category}</span>
-            </div>
+      <h1>{post.title}</h1>
 
-            <div className="post-content">
-                <TinaMarkdown content={post.body} />
-            </div>
+      <div className="post-meta">
+        <time>
+          {new Date(post.createdAt).toLocaleDateString("es-MX", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </time>
+        {post.category && <span className="post-category">{post.category}</span>}
+      </div>
 
-            {/* Comment section placeholder */}
-            <section className="comments">
-                <h3>Comentarios</h3>
-                <p className="comments-placeholder">
-                    {/* Add Giscus, Waline, or Disqus here */}
-                    Coming soon...
-                </p>
-            </section>
+      <div className="post-content">
+        {post.body && <TinaMarkdown content={post.body} />}
+      </div>
 
-            <nav className="post-nav">
-                <Link href="/blog">← Todos los posts</Link>
-                <a href="#top">↑ Subir</a>
-            </nav>
+      <section className="comments">
+        <h3>Comentarios</h3>
+        <p className="comments-placeholder">Coming soon...</p>
+      </section>
 
-            <style>{`
+      <nav className="post-nav">
+        <Link href="/blog">← Todos los posts</Link>
+        <a href="#top">↑ Subir</a>
+      </nav>
+
+      <style>{`
         .blog-post {
           max-width: 700px;
         }
@@ -136,6 +155,6 @@ export default async function BlogPost({ params }: Props) {
           font-size: 0.85rem;
         }
       `}</style>
-        </article>
-    );
+    </article>
+  );
 }
