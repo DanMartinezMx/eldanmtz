@@ -4,8 +4,40 @@ import { Sidebar } from "@/components/Sidebar";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Dan Mtz.",
+  metadataBase: new URL("https://eldanmtz.com"),
+  title: {
+    default: "Dan Mtz.",
+    template: "%s",
+  },
   description: "Blog personal — Tech, Cocina, Gaming y la vida.",
+  openGraph: {
+    title: "Dan Mtz.",
+    description: "Blog personal — Tech, Cocina, Gaming y la vida.",
+    url: "https://eldanmtz.com",
+    siteName: "Dan Mtz.",
+    locale: "es_MX",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Dan Mtz.",
+    description: "Blog personal — Tech, Cocina, Gaming y la vida.",
+    creator: "@eldanmtz",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://eldanmtz.com",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -19,27 +51,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
         </div>
         <Footer />
-
-        <style>{`
-          .site-wrapper {
-            display: flex;
-            min-height: 100vh;
-          }
-          .main-content {
-            flex: 1;
-            padding: 2rem 3rem;
-            max-width: 900px;
-            overflow-y: auto;
-          }
-          @media (max-width: 768px) {
-            .site-wrapper {
-              flex-direction: column;
-            }
-            .main-content {
-              padding: 1.5rem;
-            }
-          }
-        `}</style>
       </body>
     </html>
   );
