@@ -32,7 +32,7 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "font-src 'self' https://fonts.gstatic.com",
+              "font-src 'self' https://fonts.gstatic.com data:",
               "img-src 'self' data: https:",
               "connect-src 'self' https://content.tinajs.io https://identity.tinajs.io",
               "frame-ancestors 'none'",
@@ -41,15 +41,6 @@ const nextConfig: NextConfig = {
             ].join("; "),
           },
         ],
-      },
-    ];
-  },
-  async redirects() {
-    return [
-      {
-        source: "/admin",
-        destination: "/admin/index.html",
-        permanent: false,
       },
     ];
   },

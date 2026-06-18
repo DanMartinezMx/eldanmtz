@@ -2,9 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MicroblogFeed } from "./MicroblogFeed";
 
-export function Sidebar() {
+interface MicroblogEntry {
+  title: string;
+  createdAt: string;
+  slug: string;
+}
+
+interface SidebarProps {
+  microblogEntries: MicroblogEntry[];
+}
+
+export function Sidebar({ microblogEntries }: SidebarProps) {
   const pathname = usePathname();
 
   const navItems = [
@@ -37,12 +46,32 @@ export function Sidebar() {
 
       <div className="sidebar-section">
         <h3 className="sidebar-heading">Microblog</h3>
-        <MicroblogFeed />
+        {microblogEntries.length > 0 ? (
+          <div className="microblog-feed">
+            {microblogEntries.map((entry) => (
+              <div key={entry.slug} className="microblog-entry">
+                <p className="microblog-text">{entry.title}</p>
+                <time className="microblog-time">
+                  {new Date(entry.createdAt).toLocaleDateString("es-MX", {
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </time>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="microblog-empty">No entries yet...</p>
+        )}
       </div>
 
       <div className="sidebar-section socials">
-        <a href="https://github.com/DanMartinezMx" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://x.com/eldanmtz" target="_blank" rel="noopener noreferrer">X</a>
+        <a href="https://github.com/DanMartinezMx" target="_blank" rel="noopener noreferrer">
+          GitHub
+        </a>
+        <a href="https://x.com/eldanmtz" target="_blank" rel="noopener noreferrer">
+          X
+        </a>
       </div>
     </aside>
   );
