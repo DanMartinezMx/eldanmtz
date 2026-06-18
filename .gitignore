@@ -44,3 +44,4 @@ node_modules
 .env
 src/app/demo
 tina/__generated__
+src/pages/demo
