@@ -37,7 +37,7 @@ const categories = [
 
 function BlogPage() {
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get("category") || "Todas";
+  const initialCategory = searchParams?.get("category") || "Todas";
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [posts, setPosts] = useState<Post[]>([]);
 
