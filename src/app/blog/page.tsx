@@ -1,9 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
-import { Suspense } from "react";
 
 export default function BlogPageWrapper() {
   return (
@@ -12,6 +11,7 @@ export default function BlogPageWrapper() {
     </Suspense>
   );
 }
+
 interface Post {
   title: string;
   description: string;
@@ -35,7 +35,7 @@ const categories = [
   "Connie",
 ];
 
-export default function BlogPage() {
+function BlogPage() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") || "Todas";
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
