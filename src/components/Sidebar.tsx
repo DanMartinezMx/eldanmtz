@@ -17,7 +17,7 @@ export function Sidebar({ microblogEntries }: SidebarProps) {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/now", label: "Ahora", icon: "⚡" },
+    { href: "/now", label: "Enfoque", icon: "⚡" },
     { href: "/blog", label: "Blog", icon: "✍️" },
     { href: "/about", label: "Acerca de", icon: "👤" },
   ];

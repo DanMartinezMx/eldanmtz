@@ -7,17 +7,17 @@ interface CalendarProps {
 }
 
 export function ContributionsCalendar({ postDates }: CalendarProps) {
-  const { weekColumns } = useMemo(() => {
+  const { weekColumns, monthLabels } = useMemo(() => {
     const today = new Date();
     const weeks = 52;
-    const days: { date: string; count: number }[] = [];
+    const days: { date: string; count: number; dayOfWeek: number }[] = [];
 
     for (let i = weeks * 7 - 1; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
       const dateStr = date.toISOString().split("T")[0];
       const count = postDates.filter((d) => d.startsWith(dateStr)).length;
-      days.push({ date: dateStr, count });
+      days.push({ date: dateStr, count, dayOfWeek: date.getDay() });
     }
 
     const weekColumns: typeof days[] = [];
@@ -25,7 +25,21 @@ export function ContributionsCalendar({ postDates }: CalendarProps) {
       weekColumns.push(days.slice(i, i + 7));
     }
 
-    return { weekColumns };
+    // Calculate month labels with their position
+    const monthLabels: { label: string; col: number }[] = [];
+    const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+    let lastMonth = -1;
+
+    weekColumns.forEach((week, i) => {
+      const firstDay = new Date(week[0].date);
+      const month = firstDay.getMonth();
+      if (month !== lastMonth) {
+        monthLabels.push({ label: months[month], col: i });
+        lastMonth = month;
+      }
+    });
+
+    return { weekColumns, monthLabels };
   }, [postDates]);
 
   const getColor = (count: number) => {
@@ -35,22 +49,50 @@ export function ContributionsCalendar({ postDates }: CalendarProps) {
     return "#4a9c6d";
   };
 
+  const dayLabels = ["", "Lun", "", "Mié", "", "Vie", ""];
+
   return (
     <div className="calendar-wrapper">
       <h3 className="calendar-title">Actividad</h3>
-      <div className="calendar-grid">
-        {weekColumns.map((week, wi) => (
-          <div key={wi} className="calendar-week">
-            {week.map((day) => (
-              <div
-                key={day.date}
-                className="calendar-day"
-                title={`${day.date}: ${day.count} post${day.count !== 1 ? "s" : ""}`}
-                style={{ background: getColor(day.count) }}
-              />
-            ))}
-          </div>
-        ))}
+
+      {/* Month labels */}
+      <div className="calendar-months">
+        <div className="calendar-day-label-spacer" />
+        {weekColumns.map((_, i) => {
+          const label = monthLabels.find((m) => m.col === i);
+          return (
+            <div key={i} className="calendar-month-cell">
+              {label ? label.label : ""}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="calendar-container">
+        {/* Day-of-week labels */}
+        <div className="calendar-day-labels">
+          {dayLabels.map((label, i) => (
+            <div key={i} className="calendar-day-label">
+              {label}
+            </div>
+          ))}
+        </div>
+
+        {/* Grid */}
+        <div className="calendar-grid">
+          {weekColumns.map((week, wi) => (
+            <div key={wi} className="calendar-week">
+              {week.map((day) => (
+                <div
+                  key={day.date}
+                  className="calendar-day"
+                  title={`${day.date}: ${day.count} post${day.count !== 1 ? "s" : ""}`}
+                  style={{ background: getColor(day.count) }}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

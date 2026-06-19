@@ -306,35 +306,72 @@ a:hover {
    CONTRIBUTIONS CALENDAR
    ============================================= */
 
-.contributions-calendar {
+.calendar-wrapper {
   margin-top: 2.5rem;
 }
 
-.contributions-calendar h3 {
+.calendar-title {
   font-size: 0.9rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   color: var(--text-muted);
+}
+
+.calendar-months {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 4px;
+}
+
+.calendar-day-label-spacer {
+  width: 28px;
+  flex-shrink: 0;
+}
+
+.calendar-month-cell {
+  width: 12px;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  text-align: left;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.calendar-container {
+  display: flex;
+  gap: 4px;
+}
+
+.calendar-day-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 28px;
+  flex-shrink: 0;
+}
+
+.calendar-day-label {
+  height: 12px;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
 }
 
 .calendar-grid {
   display: flex;
   gap: 3px;
-  flex-wrap: wrap;
 }
 
-.calendar-cell {
+.calendar-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.calendar-day {
   width: 12px;
   height: 12px;
   border-radius: 2px;
-  background: var(--bg-tertiary);
-}
-
-.calendar-cell.active {
-  background: var(--accent);
-}
-
-.calendar-cell.active-2 {
-  background: var(--accent-hover);
 }
 
 /* =============================================
