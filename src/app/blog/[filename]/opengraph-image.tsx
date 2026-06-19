@@ -4,7 +4,7 @@ import path from "path";
 import matter from "gray-matter";
 
 export const runtime = "nodejs";
-export const alt = "Dan Mtz. Blog";
+export const alt = "El otro tab by Dan Mtz";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -12,7 +12,7 @@ export default async function Image({ params }: { params: { filename: string } }
     const { filename } = await params;
     const filePath = path.join(process.cwd(), "content/posts", `${filename}.mdx`);
 
-    let title = "Dan Mtz.";
+    let title = "El otro tab by Dan Mtz";
     let category = "";
 
     if (fs.existsSync(filePath)) {

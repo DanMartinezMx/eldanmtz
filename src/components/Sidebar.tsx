@@ -25,9 +25,9 @@ export function Sidebar({ microblogEntries }: SidebarProps) {
   return (
     <aside className="sidebar">
       <div className="sidebar-section">
-        <Link href="/" className="logo">
-          El otro tab by Dan Mtz
-        </Link>
+
+        <Link href="/" className="logo">El Otro Tab</Link>
+        <span className="logo-subtitle">by Dan Martinez</span>
 
         <nav className="nav">
           {navItems.map((item) => (

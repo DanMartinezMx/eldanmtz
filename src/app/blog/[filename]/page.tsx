@@ -23,18 +23,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const filePath = path.join(postsDir, `${filename}.mdx`);
 
   if (!fs.existsSync(filePath)) {
-    return { title: "Post no encontrado — Dan Mtz." };
+    return { title: "Post no encontrado — El otro tab" };
   }
 
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data } = matter(raw);
 
   return {
-    title: `${data.title} — Dan Mtz.`,
-    description: data.description || `${data.title} — Blog de Dan Mtz.`,
+    title: `${data.title} — El otro tab`,
+    description: data.description || `${data.title} — El otro tab - Blog`,
     openGraph: {
       title: data.title,
-      description: data.description || `${data.title} — Blog de Dan Mtz.`,
+      description: data.description || `${data.title} — El otro tab - Blog`,
       type: "article",
       publishedTime: data.createdAt,
       url: `https://eldanmtz.com/blog/${filename}`,
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: data.title,
-      description: data.description || `${data.title} — Blog de Dan Mtz.`,
+      description: data.description || `${data.title} — El otro tab - Blog`,
       ...(data.image && { images: [data.image] }),
     },
   };
@@ -68,12 +68,12 @@ export default async function BlogPost({ params }: Props) {
     datePublished: data.createdAt,
     author: {
       "@type": "Person",
-      name: "Daniel Martinez",
+      name: "Dan Martinez",
       url: "https://eldanmtz.com",
     },
     publisher: {
       "@type": "Person",
-      name: "Daniel Martinez",
+      name: "Dan Martinez",
     },
     url: `https://eldanmtz.com/blog/${filename}`,
     ...(data.image && { image: data.image }),

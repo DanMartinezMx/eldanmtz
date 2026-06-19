@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "nodejs";
-export const alt = "Dan Mtz. — Blog personal";
+export const alt = "El otro tab by Dan Mtz";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

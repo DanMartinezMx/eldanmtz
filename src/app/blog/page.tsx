@@ -6,11 +6,11 @@ import { BlogFilters } from "@/components/BlogFilters";
 
 
 export const metadata: Metadata = {
-  title: "Blog — Dan Mtz.",
-  description: "Posts sobre tech, cocina, gaming, viajes y la vida.",
+  title: "Blog — El otro tab by Dan Mtz",
+  description: "Posts sobre lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
   openGraph: {
-    title: "Blog — Dan Mtz.",
-    description: "Posts sobre tech, cocina, gaming, viajes y la vida.",
+    title: "Blog — El otro tab by Dan Mtz.",
+    description: "Posts sobre lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
     type: "website",
     url: "https://eldanmtz.com/blog",
   },
