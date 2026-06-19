@@ -9,22 +9,22 @@ import { Footer } from "@/components/Footer";
 export const metadata: Metadata = {
   metadataBase: new URL("https://eldanmtz.com"),
   title: {
-    default: "Dan Mtz.",
+    default: "El otro tab by Dan Mtz",
     template: "%s",
   },
-  description: "Blog personal — Tech, Cocina, Gaming y la vida.",
+  description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
   openGraph: {
-    title: "Dan Mtz.",
-    description: "Blog personal — Tech, Cocina, Gaming y la vida.",
+    title: "El otro tab by Dan Mtz",
+    description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
     url: "https://eldanmtz.com",
-    siteName: "Dan Mtz.",
+    siteName: "El otro tab by Dan Mtz",
     locale: "es_MX",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Dan Mtz.",
-    description: "Blog personal — Tech, Cocina, Gaming y la vida.",
+    title: "El otro tab by Dan Mtz",
+    description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
     creator: "@eldanmtz",
   },
   robots: {

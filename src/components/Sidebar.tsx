@@ -17,17 +17,16 @@ export function Sidebar({ microblogEntries }: SidebarProps) {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/", label: "Home", icon: "🏠" },
-    { href: "/now", label: "Now", icon: "⚡" },
+    { href: "/now", label: "Ahora", icon: "⚡" },
     { href: "/blog", label: "Blog", icon: "✍️" },
-    { href: "/about", label: "About", icon: "👤" },
+    { href: "/about", label: "Acerca de", icon: "👤" },
   ];
 
   return (
     <aside className="sidebar">
       <div className="sidebar-section">
         <Link href="/" className="logo">
-          Dan Mtz.
+          El otro tab by Dan Mtz
         </Link>
 
         <nav className="nav">

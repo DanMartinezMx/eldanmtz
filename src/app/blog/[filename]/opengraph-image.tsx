@@ -89,7 +89,7 @@ export default async function Image({ params }: { params: { filename: string } }
                     }}
                 >
                     <span style={{ fontSize: "28px", fontWeight: 600, color: "#e0e0e0" }}>
-                        Dan Mtz
+                        El otro tab by Dan Mtz
                     </span>
                     <span style={{ fontSize: "20px", color: "#666666" }}>
                         ElDanMtz.com

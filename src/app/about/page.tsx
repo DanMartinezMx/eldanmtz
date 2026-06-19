@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About — Dan Mtz.",
-  description: "Sobre Dan Martinez — tecnología, cocina, gaming, viajes, cine y la vida.",
+  title: "El otro tab by Dan Mtz",
+  description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
   openGraph: {
-    title: "About — Dan Mtz.",
-    description: "Sobre Dan Martinez — tecnología, cocina, gaming, viajes, cine y la vida.",
+    title: "El otro tab by Dan Mtz.",
+    description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
     url: "https://eldanmtz.com/about",
   },
 };

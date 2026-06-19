@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Now — Dan Mtz.",
-  description: "Lo que Dan Martinez está haciendo ahora mismo.",
+  title: "Enfoque — El otro tab by Dan Mtz",
+  description: "Esto es en lo que estoy metido actualmente",
   openGraph: {
-    title: "Now — Dan Mtz.",
-    description: "Lo que Dan Martinez está haciendo ahora mismo.",
+    title: "Enfoque — El otro tab by Dan Mtz",
+    description: "Esto es en lo que estoy metido actualmente",
     url: "https://eldanmtz.com/now",
   },
 };

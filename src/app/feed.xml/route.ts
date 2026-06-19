@@ -38,9 +38,9 @@ export async function GET() {
   const feed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dan Mtz.</title>
+    <title>El otro tab by Dan Mtz</title>
     <link>https://eldanmtz.com</link>
-    <description>Blog personal — Tech, Cocina, Gaming y la vida.</description>
+    <description>Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.</description>
     <language>es-mx</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="https://eldanmtz.com/feed.xml" rel="self" type="application/rss+xml"/>
