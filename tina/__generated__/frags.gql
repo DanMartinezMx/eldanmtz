@@ -1,0 +1,17 @@
+fragment PostParts on Post {
+  __typename
+  title
+  description
+  category
+  createdAt
+  image
+  draft
+  body
+}
+
+fragment MicroblogParts on Microblog {
+  __typename
+  title
+  createdAt
+  body
+}

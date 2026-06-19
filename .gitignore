@@ -43,6 +43,5 @@ next-env.d.ts
 node_modules
 .env
 src/app/demo
-tina/__generated__
 src/pages/demo
 src/pages/demo
