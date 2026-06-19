@@ -1,6 +1,5 @@
 # eldanmtz.com
 
-Personal blog by Dan Martinez — tech, cocina, gaming, viajes, cine y la vida.
 
 ## Tech Stack
 
