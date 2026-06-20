@@ -658,6 +658,7 @@ a:hover {
 
 .about-page {
   max-width: 100%;
+  align-content: center;
 }
 
 .about-page h1 {
