@@ -22,7 +22,7 @@ export function Navigation() {
         {/* Left: Logo */}
         <div className="nav-brand">
           <Link href="/" className="nav-logo">
-            <Image src="/logo.png" alt="El Otro Tab" width={140} height={40} priority />
+            <Image src="/logo.png" alt="El Otro Tab" width={200} height={60} priority />
           </Link>
           <span className="nav-subtitle">by Dan Martinez</span>
         </div>
