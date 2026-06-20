@@ -25,7 +25,7 @@ var config_default = defineConfig({
           { type: "string", name: "title", label: "Title", isTitle: true, required: true },
           { type: "string", name: "description", label: "Description" },
           { type: "string", name: "category", label: "Category" },
-          { type: "datetime", name: "createdAt", label: "Created At" },
+          { type: "datetime", name: "createdAt", label: "Created At", required: true },
           { type: "image", name: "image", label: "Cover Image" },
           { type: "boolean", name: "draft", label: "Draft" },
           { type: "rich-text", name: "body", label: "Body", isBody: true }
@@ -38,7 +38,7 @@ var config_default = defineConfig({
         format: "mdx",
         fields: [
           { type: "string", name: "title", label: "Title", isTitle: true, required: true },
-          { type: "datetime", name: "createdAt", label: "Created At" },
+          { type: "datetime", name: "createdAt", label: "Created At", required: true },
           { type: "rich-text", name: "body", label: "Body", isBody: true }
         ]
       }

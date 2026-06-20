@@ -94,7 +94,7 @@ type Post implements Node & Document {
   title: String!
   description: String
   category: String
-  createdAt: String
+  createdAt: String!
   image: String
   draft: Boolean
   body: JSON
@@ -159,7 +159,7 @@ type PostConnection implements Connection {
 
 type Microblog implements Node & Document {
   title: String!
-  createdAt: String
+  createdAt: String!
   body: JSON
   id: ID!
   _sys: SystemInfo!
