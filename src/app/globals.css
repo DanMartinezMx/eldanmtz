@@ -657,7 +657,7 @@ a:hover {
    ============================================= */
 
 .about-page {
-  max-width: 600px;
+  max-width: 100%;
 }
 
 .about-page h1 {
@@ -693,7 +693,7 @@ a:hover {
    ============================================= */
 
 .now-page {
-  max-width: 600px;
+  max-width: 100%;
 }
 
 .now-page h1 {
