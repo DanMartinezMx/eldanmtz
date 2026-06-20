@@ -666,8 +666,14 @@ a:hover {
 }
 
 .about-page h1 {
+  max-width: 100%;
+  text-align: center;
+}
+
+.about-page h1 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .about-section {
@@ -676,11 +682,13 @@ a:hover {
 
 .about-section h2 {
   font-size: 1.1rem;
+  text-align: center;
   margin-bottom: 0.5rem;
   color: var(--text-primary);
 }
 
 .about-section p {
+  text-align: justify;
   color: var(--text-secondary);
   line-height: 1.7;
 }
@@ -698,8 +706,9 @@ a:hover {
    ============================================= */
 
 .now-page {
-  max-width: 100%;
+  max-width: 600px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .now-page h1 {

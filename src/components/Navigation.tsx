@@ -19,14 +19,10 @@ export function Navigation() {
       <div className="nav-inner">
         {/* Left: Logo */}
         <div className="nav-brand">
-          <Link href="/" className="nav-logo">
-            <svg width="140" height="28" viewBox="0 0 140 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <text x="0" y="21" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" fontSize="20" fontWeight="700" fill="#ffffff">
-                El Otro Tab
-              </text>
-            </svg>
-          </Link>
-          <span className="nav-subtitle">by Dan Martinez</span>
+          <div className="nav-brand">
+            <Link href="/" className="nav-logo">El Otro Tab</Link>
+            <span className="nav-subtitle">by Dan Martinez</span>
+          </div>
         </div>
 
         {/* Center: Page links */}
