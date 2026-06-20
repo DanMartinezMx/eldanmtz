@@ -1,7 +1,7 @@
 ---
 title: Generar API Token con Scopes para usar Get Spaces
 description: 'En este post, les voy a mostrar los sencillos pasos a seguir para poder creat tu Scoped API Token y usarlo para usar el Get Spaces endpoint de Confluence Cloud'
-category: 'Connie '
+category: Connie
 createdAt: 2026-06-20T03:59:20.974Z
 image: /uploads/images.jpg
 draft: false
@@ -12,10 +12,10 @@ draft: false
 * Navegamos [aquí](https://id.atlassian.com/manage-profile/security/api-tokens) y clickeamos *Create API token with scopes*![](/uploads/8584ce48-da86-4b7f-a8a1-250e35469685.png)
 * Ponle un nombre y selecciona la fecha de expiración![](/uploads/image-20251014-210932-\(2\).png)
 * Selecciona también Confluence y sus scopes.
-* Puedes agregar muchos pero por ahora solo necesitatmos \*\*\*read\:space\:confluence \*\*\* ![](/uploads/image-20251014-211042.png)
-* Una vez creado el Token guárdalo para después
+* Puedes agregar muchos pero por ahora solo necesitamos ***read\:space\:confluence*** ![](/uploads/image-20251014-211042.png)
+* Una vez creado el Token, guárdalo para después
 
-## API Request 
+## API Request
 
 * Puedes usar Postman o el Curl predeterminado.
 
@@ -28,10 +28,10 @@ curl --request GET \
 
 * Yo usaré Postman para el resto de este ejemplo.
 * Dado que estamos usando un Scoped API Token, necesitamos usar la URL para estos API Tokens ![](/uploads/image-20251014-211520.png)
-* *[https://api.atlassian.com/ex/confluence/\<cloudid>/wiki/api/v2/spaces](https://api.atlassian.com/ex/confluence/\<cloudid>/wiki/api/v2/spaces)*
-* Agregamos los headers* **Accept/ApplicationJSON ***
-* En la autorización usaremos la básica:* **basic authorization***
-* Agregamos el **email** con el que creamos el **Token** y en **Password** usamos el* **Scoped API token** *que guardamos anteriormente.
+* *[https://api.atlassian.com/ex/confluence/\<cloudid>/wiki/api/v2/spaces](https://api.atlassian.com/ex/confluence/%3Ccloudid%3E/wiki/api/v2/spaces)*
+* Agregamos los headers **Accept/ApplicationJSON**
+* En la autorización usaremos la básica: **basic authorization**
+* Agregamos el **email** con el que creamos el **Token** y en **Password** usamos el **Scoped API token** que guardamos anteriormente.
 * Ejecutamos el request y deberíamos recibir todos los espacios disponibles a los que este usuario tiene accesso.
 
-**NOTA: **Si aun no sabes como obtener tu CloudID para la URL de arriba, este KB lo explica:  [https://support.atlassian.com/jira/kb/retrieve-my-atlassian-sites-cloud-id/](https://support.atlassian.com/jira/kb/retrieve-my-atlassian-sites-cloud-id/) \*
+**NOTA: **Si aun no sabes como obtener tu **CloudID** para la URL de arriba, este [KB lo explica](https://support.atlassian.com/jira/kb/retrieve-my-atlassian-sites-cloud-id/)
