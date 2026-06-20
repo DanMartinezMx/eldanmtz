@@ -2,9 +2,42 @@
 title: Generar API Token con Scopes para usar Get Spaces
 description: 'En este post, les voy a mostrar los sencillos pasos a seguir para poder creat tu Scoped API Token y usarlo para usar el Get Spaces endpoint de Confluence Cloud'
 category: 'Connie '
+image: /uploads/images.jpg
 draft: true
 ---
 
 ## Primero generamos el API token.
 
-Navegamos [aquí](https://id.atlassian.com/manage-profile/security/api-tokens) y clickeamos **Create API token with scopes **
+* Navegamos [aquí](https://id.atlassian.com/manage-profile/security/api-tokens) y clickeamos *Create API token with scopes*![](/uploads/8584ce48-da86-4b7f-a8a1-250e35469685.png)**
+* Ponle un nombre y selecciona la fecha de expiración
+
+![](/uploads/image-20251014-210932-\(2\).png)
+
+* Selecciona también Confluence y sus scopes.
+* Puedes agregar muchos pero por ahora solo necesitatmos ***read\:space\:confluence ***
+
+*Select the app and the scope. You can add the scopes you want, but currently, to pull spaces, you only need *
+
+*Once you created your token, save it for later.*
+
+*API Request*
+
+*You can Postman, or any other option like a CURL.*
+
+*I’ll use postman on this example*
+
+*Create a new request and add the Scoped API URL which is something like:*
+
+*https\://api.atlassian.com/ex/confluence/\<cloudid>/wiki/api/v2/spaces*
+
+*Then, add the Accept/ApplicationJSON to the headers*
+
+*On the authorization, use basic authorization*
+
+*Add the email of the account you used to create the token, and in Password paste your Scoped API token we created earlier.*
+
+*Execute the request, and you should receive all the spaces to which this user has access to. *
+
+*Wait, how do I get my CloudID? *
+
+*That’s a very good questions. Atlassian does have a KB do get it: https\://support.atlassian.com/jira/kb/retrieve-my-atlassian-sites-cloud-id/ *
