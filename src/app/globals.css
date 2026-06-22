@@ -100,6 +100,10 @@ a:hover {
   display: block;
 }
 
+[data-theme="light"] .nav-logo-img {
+  filter: invert(1);
+}
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -1155,6 +1159,61 @@ a:hover {
   margin-top: 2rem;
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+/* =============================================
+   STACK (inside About page)
+   ============================================= */
+
+.stack-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.stack-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.stack-category h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.stack-category ul {
+  list-style: none;
+  padding: 0;
+}
+
+.stack-category li {
+  padding: 0.35rem 0;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.stack-category li:last-child {
+  border-bottom: none;
+}
+
+.stack-category li strong {
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .stack-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 
 /* =============================================

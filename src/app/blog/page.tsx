@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Blog",
   description: "Posts sobre lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
   openGraph: {
-    title: "Blog — El Otro Tab",
+    title: "Blog — El otro Tab",
     description: "Posts sobre lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
     type: "website",
     url: "https://eldanmtz.com/blog",

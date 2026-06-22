@@ -1,6 +1,6 @@
 {
-    "name": "El Otro Tab",
-    "short_name": "El Otro Tab",
+    "name": "El otro Tab",
+    "short_name": "El otro Tab",
     "description": "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
     "start_url": "/",
     "display": "standalone",

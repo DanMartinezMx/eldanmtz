@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: "Enfoque",
   description: "Esto es en lo que estoy metido actualmente.",
   openGraph: {
-    title: "Enfoque — El Otro Tab",
+    title: "Enfoque — El otro Tab",
     description: "Esto es en lo que estoy metido actualmente.",
     url: "https://eldanmtz.com/now",
   },

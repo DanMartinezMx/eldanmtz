@@ -6,21 +6,21 @@ import { Footer } from "@/components/Footer";
 export const metadata: Metadata = {
   metadataBase: new URL("https://eldanmtz.com"),
   title: {
-    default: "El Otro Tab — Dan Martinez",
-    template: "%s — El Otro Tab",
+    default: "El otro Tab — Dan Martinez",
+    template: "%s — El otro Tab",
   },
   description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
   openGraph: {
-    title: "El Otro Tab — Dan Martinez",
+    title: "El otro Tab — Dan Martinez",
     description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
     url: "https://eldanmtz.com",
-    siteName: "El Otro Tab",
+    siteName: "El otro Tab",
     locale: "es_MX",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "El Otro Tab — Dan Martinez",
+    title: "El otro Tab — Dan Martinez",
     description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
     creator: "@eldanmtz",
   },

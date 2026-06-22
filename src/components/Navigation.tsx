@@ -5,16 +5,15 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
-import { SearchDialog } from "./SearchDialog";
 
 export function Navigation() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
+    { href: "/", label: "Inicio 🏠" },
     { href: "/now", label: "Enfoque 🎧" },
     { href: "/blog", label: "Blog 👨🏽‍💻" },
-    { href: "/uses", label: "Stack 🛠️" },
     { href: "/about", label: "Acerca de 👤" },
   ];
 
@@ -51,7 +50,7 @@ export function Navigation() {
         <Link href="/" className="nav-logo">
           <Image
             src="/logo.png"
-            alt="El Otro Tab"
+            alt="El otro Tab"
             width={160}
             height={40}
             priority
@@ -76,9 +75,8 @@ export function Navigation() {
           </div>
         </nav>
 
-        {/* Right: Search + Socials */}
+        {/* Right: Socials */}
         <div className="nav-socials">
-          <SearchDialog posts={[]} />
           {socials}
         </div>
 

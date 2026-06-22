@@ -38,7 +38,7 @@ export async function GET() {
   const feed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>El Otro Tab</title>
+    <title>El otro Tab</title>
     <link>https://eldanmtz.com</link>
     <description>Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.</description>
     <language>es-mx</language>
