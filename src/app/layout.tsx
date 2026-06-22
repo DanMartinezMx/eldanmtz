@@ -41,11 +41,12 @@ export const metadata: Metadata = {
       "application/rss+xml": "https://eldanmtz.com/feed.xml",
     },
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body>
         <Navigation />
         <main className="main-content">{children}</main>

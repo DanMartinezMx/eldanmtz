@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -11,6 +12,7 @@ export function Navigation() {
   const navItems = [
     { href: "/now", label: "Enfoque 🎧" },
     { href: "/blog", label: "Blog 👨🏽‍💻" },
+    { href: "/uses", label: "Stack 🛠️" },
     { href: "/about", label: "Acerca de 👤" },
   ];
 
@@ -41,19 +43,18 @@ export function Navigation() {
           <path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248-1.796 0-3.252-1.454-3.252-3.248 0-1.794 1.456-3.248 3.252-3.248 1.795 0 3.251 1.454 3.251 3.248zm-6.503-12.572v4.811c6.05.062 10.96 4.966 11.022 11.009h4.817c-.062-8.71-7.118-15.758-15.839-15.82zm0-8.18v4.819c12.484.076 22.59 10.167 22.66 22.661h4.82c-.07-15.148-12.326-27.392-27.48-27.48z" />
         </svg>
       </a>
+      <ThemeToggle />
     </>
   );
 
   return (
     <header className="site-nav">
       <div className="nav-inner">
-        {/* Left: Logo */}
         <div className="nav-brand">
           <Link href="/" className="nav-logo">El Otro Tab</Link>
           <span className="nav-subtitle">by Dan Martinez</span>
         </div>
 
-        {/* Center: Page links */}
         <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
           {navItems.map((item) => (
             <Link
@@ -65,18 +66,15 @@ export function Navigation() {
               {item.label}
             </Link>
           ))}
-          {/* Socials inside mobile menu */}
           <div className="nav-socials-mobile">
             {socials}
           </div>
         </nav>
 
-        {/* Right: Socials (desktop only) */}
         <div className="nav-socials">
           {socials}
         </div>
 
-        {/* Mobile hamburger */}
         <button
           className="nav-hamburger"
           onClick={() => setMenuOpen(!menuOpen)}

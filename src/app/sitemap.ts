@@ -1,34 +1,26 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+import { getPosts } from "@/lib/content";
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://eldanmtz.com";
+  const posts = getPosts();
 
-  const staticPages = [
-    { url: baseUrl, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 1 },
-    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.9 },
-    { url: `${baseUrl}/now`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.7 },
-    { url: `${baseUrl}/about`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 },
+  const latestPostDate = posts.length > 0 ? new Date(posts[0].createdAt) : new Date();
+
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: baseUrl, lastModified: latestPostDate, changeFrequency: "weekly", priority: 1 },
+    { url: `${baseUrl}/blog`, lastModified: latestPostDate, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/uses`, lastModified: new Date("2026-06-21"), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/now`, lastModified: new Date("2026-06-21"), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/about`, lastModified: new Date("2026-06-21"), changeFrequency: "monthly", priority: 0.6 },
   ];
 
-  const postsDir = path.join(process.cwd(), "content/posts");
-  let postPages: MetadataRoute.Sitemap = [];
-
-  if (fs.existsSync(postsDir)) {
-    const files = fs.readdirSync(postsDir).filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
-    postPages = files.map((file) => {
-      const raw = fs.readFileSync(path.join(postsDir, file), "utf-8");
-      const { data } = matter(raw);
-      return {
-        url: `${baseUrl}/blog/${file.replace(/\.(mdx|md)$/, "")}`,
-        lastModified: data.createdAt ? new Date(data.createdAt) : new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.8,
-      };
-    });
-  }
+  const postPages: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.createdAt),
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
 
   return [...staticPages, ...postPages];
 }

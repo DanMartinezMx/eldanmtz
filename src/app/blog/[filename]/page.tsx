@@ -2,9 +2,12 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import Link from "next/link";
+import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { getRelatedPosts, getPostsInSeries } from "@/lib/content";
+import { SubscribeCTA } from "@/components/SubscribeCTA";
 
 interface Props {
   params: Promise<{ filename: string }>;
@@ -23,18 +26,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const filePath = path.join(postsDir, `${filename}.mdx`);
 
   if (!fs.existsSync(filePath)) {
-    return { title: "Post no encontrado — El otro tab" };
+    return { title: "Post no encontrado" };
   }
 
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data } = matter(raw);
 
   return {
-    title: `${data.title} — El otro tab`,
-    description: data.description || `${data.title} — El otro tab - Blog`,
+    title: data.title,
+    description: data.description || `${data.title} — Blog`,
     openGraph: {
       title: data.title,
-      description: data.description || `${data.title} — El otro tab - Blog`,
+      description: data.description || `${data.title} — Blog`,
       type: "article",
       publishedTime: data.createdAt,
       url: `https://eldanmtz.com/blog/${filename}`,
@@ -43,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: data.title,
-      description: data.description || `${data.title} — El otro tab - Blog`,
+      description: data.description || `${data.title} — Blog`,
       ...(data.image && { images: [data.image] }),
     },
   };
@@ -59,6 +62,17 @@ export default async function BlogPost({ params }: Props) {
 
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
+
+  // Reading time
+  const wordCount = content.split(/\s+/).filter(Boolean).length;
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+  // Related posts
+  const relatedPosts = data.category ? getRelatedPosts(filename, data.category, 3) : [];
+
+  // Series
+  const seriesPosts = data.series ? getPostsInSeries(data.series) : [];
+  const currentSeriesIndex = seriesPosts.findIndex((p) => p.slug === filename);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -88,7 +102,16 @@ export default async function BlogPost({ params }: Props) {
 
       <Link href="/blog" className="back-link">← Volver al blog</Link>
 
-      {data.image && <img src={data.image} alt={data.title} className="post-image" />}
+      {data.image && (
+        <Image
+          src={data.image}
+          alt={data.title}
+          width={800}
+          height={400}
+          className="post-image"
+          priority
+        />
+      )}
 
       <h1>{data.title}</h1>
 
@@ -101,16 +124,53 @@ export default async function BlogPost({ params }: Props) {
           })}
         </time>
         {data.category && <span className="post-category">{data.category}</span>}
+        <span className="reading-time">☕ {readingTime} min de lectura</span>
       </div>
+
+      {/* Series navigation */}
+      {seriesPosts.length > 1 && (
+        <nav className="series-nav">
+          <p className="series-title">📚 Serie: {data.series} ({currentSeriesIndex + 1} de {seriesPosts.length})</p>
+          <div className="series-links">
+            {seriesPosts.map((sp, i) => (
+              <Link
+                key={sp.slug}
+                href={`/blog/${sp.slug}`}
+                className={`series-link ${sp.slug === filename ? "current" : ""}`}
+              >
+                {i + 1}. {sp.title}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
 
       <div className="post-content">
         <MDXRemote source={content} />
       </div>
 
-      <section className="comments">
-        <h3>Comentarios</h3>
-        <p className="comments-placeholder">Coming soon...</p>
-      </section>
+      {/* Subscribe CTA */}
+      <SubscribeCTA />
+
+      {/* Related posts */}
+      {relatedPosts.length > 0 && (
+        <section className="related-posts">
+          <h3>Posts relacionados</h3>
+          <div className="related-list">
+            {relatedPosts.map((post) => (
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="related-item">
+                <span>{post.title}</span>
+                <time>
+                  {new Date(post.createdAt).toLocaleDateString("es-MX", {
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </time>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <nav className="post-nav">
         <Link href="/blog">← Todos los posts</Link>
