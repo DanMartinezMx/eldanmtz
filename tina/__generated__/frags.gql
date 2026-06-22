@@ -4,6 +4,7 @@ fragment PostParts on Post {
   description
   category
   createdAt
+  updatedAt
   image
   draft
   body

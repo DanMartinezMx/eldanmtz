@@ -37,6 +37,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://eldanmtz.com",
+    languages: {
+      "es-MX": "https://eldanmtz.com",
+      "es": "https://eldanmtz.com",
+    },
     types: {
       "application/rss+xml": "https://eldanmtz.com/feed.xml",
     },

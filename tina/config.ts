@@ -43,6 +43,7 @@ export default defineConfig({
                         ],
                     },
                     { type: "datetime", name: "createdAt", label: "Created At", required: true },
+                    { type: "datetime", name: "updatedAt", label: "Last Updated (optional)" },
                     { type: "image", name: "image", label: "Cover Image" },
                     { type: "boolean", name: "draft", label: "Draft" },
                     { type: "rich-text", name: "body", label: "Body", isBody: true },

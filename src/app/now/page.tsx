@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Enfoque",
   description: "Esto es en lo que estoy metido actualmente.",
+  alternates: {
+    canonical: "https://eldanmtz.com/now",
+  },
   openGraph: {
     title: "Enfoque — El otro Tab",
     description: "Esto es en lo que estoy metido actualmente.",

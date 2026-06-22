@@ -9,8 +9,33 @@ export default function Home() {
   const recentMicroblog = allMicroblog.slice(0, 10);
   const allDates = getAllDates();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "El otro Tab",
+    url: "https://eldanmtz.com",
+    description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
+    author: {
+      "@type": "Person",
+      name: "Dan Martinez",
+      url: "https://eldanmtz.com/about",
+      sameAs: [
+        "https://instagram.com/eldanmtz",
+        "https://youtube.com/@eldanmtz",
+        "https://tiktok.com/@eldanmtz",
+        "https://github.com/DanMartinezMx",
+      ],
+    },
+    inLanguage: "es-MX",
+  };
+
   return (
     <div className="home">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <section className="home-grid">
         {/* Left column: Posts */}
         <div className="home-posts">

@@ -95,6 +95,7 @@ type Post implements Node & Document {
   description: String
   category: String!
   createdAt: String!
+  updatedAt: String
   image: String
   draft: Boolean
   body: JSON
@@ -141,6 +142,7 @@ input PostFilter {
   description: StringFilter
   category: StringFilter
   createdAt: DatetimeFilter
+  updatedAt: DatetimeFilter
   image: ImageFilter
   draft: BooleanFilter
   body: RichTextFilter
@@ -211,6 +213,7 @@ input PostMutation {
   description: String
   category: String
   createdAt: String
+  updatedAt: String
   image: String
   draft: Boolean
   body: JSON

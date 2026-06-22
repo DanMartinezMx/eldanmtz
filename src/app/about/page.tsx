@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Sobre mí — El otro Tab",
   description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
+  alternates: {
+    canonical: "https://eldanmtz.com/about",
+  },
   openGraph: {
     title: "Sobre mí — El otro Tab",
     description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",

@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/uses",
+        destination: "/about",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
@@ -34,7 +43,8 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: https:",
-              "connect-src 'self' https://content.tinajs.io https://identity.tinajs.io https://assets.tina.io https://media.tinajs.io https://*.tinajs.io https://*.tina.io https://s3.us-east-1.amazonaws.com https://*.amazonaws.com", "frame-ancestors 'none'",
+              "connect-src 'self' https://content.tinajs.io https://identity.tinajs.io https://assets.tina.io https://media.tinajs.io https://*.tinajs.io https://*.tina.io https://s3.us-east-1.amazonaws.com https://*.amazonaws.com",
+              "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
             ].join("; "),

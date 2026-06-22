@@ -7,6 +7,7 @@ export interface Post {
     description: string;
     category: string;
     createdAt: string;
+    updatedAt: string;
     slug: string;
     draft: boolean;
     image?: string;
@@ -39,6 +40,7 @@ export function getPosts(): Post[] {
             description: data.description || "",
             category: data.category || "",
             createdAt: data.createdAt ? new Date(data.createdAt).toISOString() : "",
+            updatedAt: data.updatedAt ? new Date(data.updatedAt).toISOString() : "",
             slug: file.replace(/\.(mdx|md)$/, ""),
             draft: data.draft || false,
             image: data.image || undefined,

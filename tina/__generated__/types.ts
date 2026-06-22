@@ -189,6 +189,7 @@ export type Post = Node & Document & {
   description?: Maybe<Scalars['String']['output']>;
   category: Scalars['String']['output'];
   createdAt: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['String']['output']>;
   image?: Maybe<Scalars['String']['output']>;
   draft?: Maybe<Scalars['Boolean']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
@@ -235,6 +236,7 @@ export type PostFilter = {
   description?: InputMaybe<StringFilter>;
   category?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DatetimeFilter>;
+  updatedAt?: InputMaybe<DatetimeFilter>;
   image?: InputMaybe<ImageFilter>;
   draft?: InputMaybe<BooleanFilter>;
   body?: InputMaybe<RichTextFilter>;
@@ -368,6 +370,7 @@ export type PostMutation = {
   description?: InputMaybe<Scalars['String']['input']>;
   category?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
@@ -379,7 +382,7 @@ export type MicroblogMutation = {
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export type PostPartsFragment = { __typename: 'Post', title: string, description?: string | null, category: string, createdAt: string, image?: string | null, draft?: boolean | null, body?: any | null };
+export type PostPartsFragment = { __typename: 'Post', title: string, description?: string | null, category: string, createdAt: string, updatedAt?: string | null, image?: string | null, draft?: boolean | null, body?: any | null };
 
 export type MicroblogPartsFragment = { __typename: 'Microblog', title: string, createdAt: string, body?: any | null };
 
@@ -388,7 +391,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, description?: string | null, category: string, createdAt: string, image?: string | null, draft?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, description?: string | null, category: string, createdAt: string, updatedAt?: string | null, image?: string | null, draft?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type PostConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -400,7 +403,7 @@ export type PostConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, description?: string | null, category: string, createdAt: string, image?: string | null, draft?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, description?: string | null, category: string, createdAt: string, updatedAt?: string | null, image?: string | null, draft?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type MicroblogQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -428,6 +431,7 @@ export const PostPartsFragmentDoc = gql`
   description
   category
   createdAt
+  updatedAt
   image
   draft
   body
@@ -617,7 +621,7 @@ export const ExperimentalGetTinaClient = () =>
   getSdk(
     generateRequester(
       createClient({
-        url: "http://localhost:4001/graphql",
+        url: "https://content.tinajs.io/2.4/content/84696ac4-5f91-4553-ac13-e07247bd19c0/github/main",
         queries,
       })
     )

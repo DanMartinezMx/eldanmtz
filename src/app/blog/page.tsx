@@ -5,6 +5,9 @@ import { BlogFilters } from "@/components/BlogFilters";
 export const metadata: Metadata = {
   title: "Blog",
   description: "Posts sobre lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
+  alternates: {
+    canonical: "https://eldanmtz.com/blog",
+  },
   openGraph: {
     title: "Blog — El otro Tab",
     description: "Posts sobre lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",

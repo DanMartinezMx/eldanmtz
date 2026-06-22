@@ -34,10 +34,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: data.title,
-    description: data.description || `${data.title} — Blog`,
+    description: data.description || `Lee "${data.title}" en El otro Tab — un blog personal sobre ${data.category?.toLowerCase() || "la vida"}.`,
+    alternates: {
+      canonical: `https://eldanmtz.com/blog/${filename}`,
+    },
     openGraph: {
       title: data.title,
-      description: data.description || `${data.title} — Blog`,
+      description: data.description || `Lee "${data.title}" en El otro Tab — un blog personal sobre ${data.category?.toLowerCase() || "la vida"}.`,
       type: "article",
       publishedTime: data.createdAt,
       url: `https://eldanmtz.com/blog/${filename}`,
@@ -46,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: data.title,
-      description: data.description || `${data.title} — Blog`,
+      description: data.description || `Lee "${data.title}" en El otro Tab — un blog personal sobre ${data.category?.toLowerCase() || "la vida"}.`,
       ...(data.image && { images: [data.image] }),
     },
   };
@@ -74,12 +77,14 @@ export default async function BlogPost({ params }: Props) {
   const seriesPosts = data.series ? getPostsInSeries(data.series) : [];
   const currentSeriesIndex = seriesPosts.findIndex((p) => p.slug === filename);
 
+  // Structured data: BlogPosting
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: data.title,
     description: data.description || "",
     datePublished: data.createdAt,
+    dateModified: data.updatedAt || data.createdAt,
     author: {
       "@type": "Person",
       name: "Dan Martinez",
@@ -90,7 +95,25 @@ export default async function BlogPost({ params }: Props) {
       name: "Dan Martinez",
     },
     url: `https://eldanmtz.com/blog/${filename}`,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://eldanmtz.com/blog/${filename}`,
+    },
     ...(data.image && { image: data.image }),
+    ...(data.category && { articleSection: data.category }),
+    inLanguage: "es-MX",
+    wordCount: wordCount,
+  };
+
+  // Structured data: BreadcrumbList
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: "https://eldanmtz.com" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://eldanmtz.com/blog" },
+      { "@type": "ListItem", position: 3, name: data.title, item: `https://eldanmtz.com/blog/${filename}` },
+    ],
   };
 
   return (
@@ -98,6 +121,10 @@ export default async function BlogPost({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
       <Link href="/blog" className="back-link">← Volver al blog</Link>
