@@ -89,20 +89,15 @@ a:hover {
 }
 
 .nav-logo {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  line-height: 0;
 }
 
-.nav-logo:hover {
-  color: var(--accent);
-}
-
-.nav-subtitle {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  white-space: nowrap;
+.nav-logo-img {
+  height: 36px;
+  width: auto;
+  display: block;
 }
 
 .nav-links {

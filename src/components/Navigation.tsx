@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import { SearchDialog } from "./SearchDialog";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -45,11 +47,19 @@ export function Navigation() {
   return (
     <header className="site-nav">
       <div className="nav-inner">
-        <div className="nav-brand">
-          <Link href="/" className="nav-logo">El Otro Tab</Link>
-          <span className="nav-subtitle">by Dan Martinez</span>
-        </div>
+        {/* Left: Logo image */}
+        <Link href="/" className="nav-logo">
+          <Image
+            src="/logo.png"
+            alt="El Otro Tab"
+            width={160}
+            height={40}
+            priority
+            className="nav-logo-img"
+          />
+        </Link>
 
+        {/* Center: Page links */}
         <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
           {navItems.map((item) => (
             <Link
@@ -66,10 +76,13 @@ export function Navigation() {
           </div>
         </nav>
 
+        {/* Right: Search + Socials */}
         <div className="nav-socials">
+          <SearchDialog posts={[]} />
           {socials}
         </div>
 
+        {/* Mobile hamburger */}
         <button
           className="nav-hamburger"
           onClick={() => setMenuOpen(!menuOpen)}

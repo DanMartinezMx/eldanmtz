@@ -4,7 +4,7 @@ import path from "path";
 import matter from "gray-matter";
 
 export const runtime = "nodejs";
-export const alt = "El otro tab by Dan Mtz";
+export const alt = "El otro Tab by Dan Martinez";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -12,7 +12,7 @@ export default async function Image({ params }: { params: { filename: string } }
     const { filename } = await params;
     const filePath = path.join(process.cwd(), "content/posts", `${filename}.mdx`);
 
-    let title = "El otro tab by Dan Mtz";
+    let title = "El otro Tab by Dan Martinez";
     let category = "";
 
     if (fs.existsSync(filePath)) {
@@ -89,10 +89,10 @@ export default async function Image({ params }: { params: { filename: string } }
                     }}
                 >
                     <span style={{ fontSize: "28px", fontWeight: 600, color: "#e0e0e0" }}>
-                        El otro tab by Dan Mtz
+                        El otro Tab by Dan Martinez
                     </span>
                     <span style={{ fontSize: "20px", color: "#666666" }}>
-                        ElDanMtz.com
+                        eldanmtz.com
                     </span>
                 </div>
             </div>

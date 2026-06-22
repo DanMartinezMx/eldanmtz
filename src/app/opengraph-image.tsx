@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "nodejs";
-export const alt = "El otro tab by Dan Mtz";
+export const alt = "El otro Tab by Dan Martinez";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -22,7 +22,7 @@ export default async function Image() {
                 }}
             >
                 <h1 style={{ fontSize: "80px", fontWeight: 700, margin: 0 }}>
-                    El otro tab by Dan Mtz
+                    El otro Tab by Dan Martinez
                 </h1>
                 <p style={{ fontSize: "28px", color: "#a0a0a0", marginTop: "16px" }}>
                     Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.
