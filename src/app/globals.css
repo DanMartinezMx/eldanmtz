@@ -707,6 +707,10 @@ a:hover {
   line-height: 1.7;
 }
 
+.about-section p+p {
+  margin-top: 1rem;
+}
+
 .instagram-placeholder {
   background: var(--bg-tertiary);
   padding: 2rem;

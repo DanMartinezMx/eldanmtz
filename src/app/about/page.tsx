@@ -16,15 +16,11 @@ export default function AboutPage() {
       <h1>Sobre mí</h1>
 
       <section className="about-section">
-        <h2>Sobre mí</h2>
         <p>
           Soy Dan. Soy papá, esposo, y hasta donde sé, humano. </p>
-        <br></br>
         <p> Me gusta cocinar, jugar videojuegos, ver películas, leer y escribir, cuándo la paternidad da un descanso.</p>
-        <br></br>
         <p>
           Honestamente no sé que más puedo escribir sobre mi. Me irán conociendo más en los posts. Y en las otras secciones del blog. </p>
-        <br></br>
         <p>
           Espero que este blog sea de tu agrado. Que te haga reir, aprender algo nuevo,
           cuestionarte, o pasar el rato mientras estás en el baño. No todo son reels.
@@ -36,13 +32,10 @@ export default function AboutPage() {
         <p>
           Este es mi espacio personal en internet.
         </p>
-        <br></br>
         <p>
           Aquí escribo sobre lo que me interesa: tecnología, cocina, gaming, viajes, cine y la vida en general.
         </p>
-        <br></br>
         <p>No hay un tema fijo porque no soy experto en nada — este blog es un reflejo de mis intereses.</p>
-        <br></br>
         <p>Estoy aprendiendo un montón de cosas nuevas, así que muchas de esas cosas que vaya aprendiendo, las iré compartiendo aquí.</p>
       </section>
 
