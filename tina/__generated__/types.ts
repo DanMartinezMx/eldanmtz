@@ -187,7 +187,7 @@ export type Post = Node & Document & {
   __typename?: 'Post';
   title: Scalars['String']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  category?: Maybe<Scalars['String']['output']>;
+  category: Scalars['String']['output'];
   createdAt: Scalars['String']['output'];
   image?: Maybe<Scalars['String']['output']>;
   draft?: Maybe<Scalars['Boolean']['output']>;
@@ -379,7 +379,7 @@ export type MicroblogMutation = {
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export type PostPartsFragment = { __typename: 'Post', title: string, description?: string | null, category?: string | null, createdAt: string, image?: string | null, draft?: boolean | null, body?: any | null };
+export type PostPartsFragment = { __typename: 'Post', title: string, description?: string | null, category: string, createdAt: string, image?: string | null, draft?: boolean | null, body?: any | null };
 
 export type MicroblogPartsFragment = { __typename: 'Microblog', title: string, createdAt: string, body?: any | null };
 
@@ -388,7 +388,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, description?: string | null, category?: string | null, createdAt: string, image?: string | null, draft?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, description?: string | null, category: string, createdAt: string, image?: string | null, draft?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type PostConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -400,7 +400,7 @@ export type PostConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, description?: string | null, category?: string | null, createdAt: string, image?: string | null, draft?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, description?: string | null, category: string, createdAt: string, image?: string | null, draft?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type MicroblogQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];

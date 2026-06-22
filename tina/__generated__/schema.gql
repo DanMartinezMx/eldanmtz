@@ -93,7 +93,7 @@ union DocumentNode = Post | Microblog | Folder
 type Post implements Node & Document {
   title: String!
   description: String
-  category: String
+  category: String!
   createdAt: String!
   image: String
   draft: Boolean

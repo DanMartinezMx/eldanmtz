@@ -24,7 +24,24 @@ var config_default = defineConfig({
         fields: [
           { type: "string", name: "title", label: "Title", isTitle: true, required: true },
           { type: "string", name: "description", label: "Description" },
-          { type: "string", name: "category", label: "Category" },
+          {
+            type: "string",
+            name: "category",
+            label: "Category",
+            required: true,
+            options: [
+              "Tech",
+              "Coding",
+              "Gaming",
+              "Foodies",
+              "Cine y TV",
+              "Viajes",
+              "Personal",
+              "Random",
+              "Recomendaciones",
+              "Connie"
+            ]
+          },
           { type: "datetime", name: "createdAt", label: "Created At", required: true },
           { type: "image", name: "image", label: "Cover Image" },
           { type: "boolean", name: "draft", label: "Draft" },
