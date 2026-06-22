@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Acerca de",
+  title: "Sobre mí — El otro Tab",
   description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
   openGraph: {
-    title: "Acerca de — El otro Tab",
+    title: "Sobre mí — El otro Tab",
     description: "Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.",
     url: "https://eldanmtz.com/about",
   },
@@ -13,36 +13,37 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="about-page">
-      <h1>Acerca de</h1>
-
-      <section className="about-section">
-        <h2>Sobre el Blog</h2>
-        <p>
-          Este es mi espacio personal en internet. Escribo sobre lo que me interesa:
-          tecnología, cocina, gaming, viajes, cine y la vida en general.
-          No hay un tema fijo — es un reflejo de mis intereses.
-        </p>
-      </section>
+      <h1>Sobre mí</h1>
 
       <section className="about-section">
         <h2>Sobre mí</h2>
         <p>
-          Soy Dan. Soy papá, esposo, y hasta donde sé, humano. Me gusta cocinar,
-          jugar videojuegos, ver películas, leer y escribir. Cuándo la paternidad da un descanso.
-          Este blog es mi proyecto personal, para aprender nuevas cosas, para documentar y compartir.
-        </p>
+          Soy Dan. Soy papá, esposo, y hasta donde sé, humano. </p>
+        <br></br>
+        <p> Me gusta cocinar, jugar videojuegos, ver películas, leer y escribir, cuándo la paternidad da un descanso.</p>
+        <br></br>
+        <p>
+          Honestamente no sé que más puedo escribir sobre mi. Me irán conociendo más en los posts. Y en las otras secciones del blog. </p>
+        <br></br>
         <p>
           Espero que este blog sea de tu agrado. Que te haga reir, aprender algo nuevo,
           cuestionarte, o pasar el rato mientras estás en el baño. No todo son reels.
         </p>
-        <p>Pero por si si, acá están los míos</p>
       </section>
 
       <section className="about-section">
-        <h2>Instagram</h2>
-        <div className="instagram-placeholder">
-          <p>Bueno aquí estarán los reels... aun no aprendo lo suficiente para hacer esto...</p>
-        </div>
+        <h2>Sobre el Blog</h2>
+        <p>
+          Este es mi espacio personal en internet.
+        </p>
+        <br></br>
+        <p>
+          Aquí escribo sobre lo que me interesa: tecnología, cocina, gaming, viajes, cine y la vida en general.
+        </p>
+        <br></br>
+        <p>No hay un tema fijo porque no soy experto en nada — este blog es un reflejo de mis intereses.</p>
+        <br></br>
+        <p>Estoy aprendiendo un montón de cosas nuevas, así que muchas de esas cosas que vaya aprendiendo, las iré compartiendo aquí.</p>
       </section>
 
       <section className="about-section stack-section">
@@ -54,10 +55,10 @@ export default function AboutPage() {
             <h3>💻 Hardware</h3>
             <ul>
               <li><strong>Laptop:</strong> MacBook Pro M-series</li>
-              <li><strong>Monitor:</strong> [Tu monitor]</li>
-              <li><strong>Teclado:</strong> [Tu teclado]</li>
-              <li><strong>Mouse:</strong> [Tu mouse]</li>
-              <li><strong>Audífonos:</strong> [Tus audífonos]</li>
+              <li><strong>Monitor:</strong> LG -notengoideaquemodelo-</li>
+              <li><strong>Teclado:</strong> Magic Keyboard</li>
+              <li><strong>Mouse:</strong> Magic Mouse - Lo odio</li>
+              <li><strong>Audífonos:</strong> JBL - TUNE670NC</li>
             </ul>
           </div>
 
@@ -65,27 +66,27 @@ export default function AboutPage() {
             <h3>🛠️ Desarrollo</h3>
             <ul>
               <li><strong>Editor:</strong> VS Code</li>
-              <li><strong>Terminal:</strong> [Tu terminal]</li>
-              <li><strong>Framework:</strong> Next.js</li>
-              <li><strong>CMS:</strong> TinaCMS</li>
-              <li><strong>Hosting:</strong> Vercel</li>
+              <li><strong>Terminal:</strong> cmux - como Disneylandia para Devs</li>
+              <li><strong>Framework:</strong> Next.js - estoy aprendiendo</li>
+              <li><strong>CMS:</strong> TinaCMS - por ahora</li>
+              <li><strong>Hosting:</strong> Vercel - free</li>
             </ul>
           </div>
 
           <div className="stack-category">
             <h3>📱 Apps</h3>
             <ul>
-              <li><strong>Notas:</strong> [Tu app de notas]</li>
-              <li><strong>Música:</strong> Spotify</li>
-              <li><strong>Navegador:</strong> [Tu navegador]</li>
-              <li><strong>Diseño:</strong> Figma</li>
+              <li><strong>Notas:</strong> Google Keep</li>
+              <li><strong>Música:</strong> YT Music - El Mejor algoritmo tbh</li>
+              <li><strong>Navegador:</strong> Chrome - Testeando Dia</li>
+              <li><strong>Diseño:</strong> Cualquier plataforma que me sea útil</li>
             </ul>
           </div>
 
           <div className="stack-category">
             <h3>🎮 Gaming</h3>
             <ul>
-              <li><strong>Consola:</strong> [Tu consola]</li>
+              <li><strong>Consola:</strong> XBOX Series S - Tengo una PC que no suo T_T</li>
               <li><strong>Juego actual:</strong> Crimson Desert</li>
             </ul>
           </div>

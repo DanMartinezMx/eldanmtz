@@ -14,7 +14,7 @@ export function Navigation() {
     { href: "/", label: "Inicio 🏠" },
     { href: "/now", label: "Enfoque 🎧" },
     { href: "/blog", label: "Blog 👨🏽‍💻" },
-    { href: "/about", label: "Acerca de 👤" },
+    { href: "/about", label: "Sobre mí 👤" },
   ];
 
   const socials = (
