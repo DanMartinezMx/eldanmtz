@@ -6,7 +6,7 @@ import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getRelatedPosts, getPostsInSeries } from "@/lib/content";
+import { getRelatedPosts, getPostsInSeries, getConnieSeries } from "@/lib/content";
 import { SubscribeCTA } from "@/components/SubscribeCTA";
 
 interface Props {
@@ -73,8 +73,20 @@ export default async function BlogPost({ params }: Props) {
   // Related posts
   const relatedPosts = data.category ? getRelatedPosts(filename, data.category, 3) : [];
 
-  // Series
-  const seriesPosts = data.series ? getPostsInSeries(data.series) : [];
+  // Series — auto-detect Connie category or use manual series field
+  let seriesPosts: ReturnType<typeof getConnieSeries> = [];
+  let seriesName = "";
+
+  if (data.series) {
+    // Manual series from frontmatter
+    seriesPosts = getPostsInSeries(data.series);
+    seriesName = data.series;
+  } else if (data.category === "Connie") {
+    // Auto-series for Connie category
+    seriesPosts = getConnieSeries();
+    seriesName = "Guías Confluence Cloud";
+  }
+
   const currentSeriesIndex = seriesPosts.findIndex((p) => p.slug === filename);
 
   // Structured data: BlogPosting
@@ -157,7 +169,7 @@ export default async function BlogPost({ params }: Props) {
       {/* Series navigation */}
       {seriesPosts.length > 1 && (
         <nav className="series-nav">
-          <p className="series-title">📚 Serie: {data.series} ({currentSeriesIndex + 1} de {seriesPosts.length})</p>
+          <p className="series-title">📚 Serie: {seriesName} ({currentSeriesIndex + 1} de {seriesPosts.length})</p>
           <div className="series-links">
             {seriesPosts.map((sp, i) => (
               <Link
