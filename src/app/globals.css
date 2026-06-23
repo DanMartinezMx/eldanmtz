@@ -1458,6 +1458,312 @@ a:hover {
 }
 
 /* =============================================
+   READING PROGRESS BAR
+   ============================================= */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 200;
+  background: transparent;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.1s linear;
+}
+
+/* =============================================
+   TABLE OF CONTENTS
+   ============================================= */
+
+.toc {
+  margin-bottom: 2rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.toc-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0 0;
+}
+
+.toc-item {
+  padding: 0.25rem 0;
+}
+
+.toc-item a {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.toc-item a:hover {
+  color: var(--accent);
+}
+
+.toc-level-2 {
+  padding-left: 0;
+}
+
+.toc-level-3 {
+  padding-left: 1rem;
+}
+
+/* =============================================
+   CALLOUT BLOCKS
+   ============================================= */
+
+.callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  border-left: 4px solid;
+}
+
+.callout-note {
+  background: rgba(29, 155, 209, 0.08);
+  border-left-color: var(--link);
+}
+
+.callout-tip {
+  background: rgba(74, 156, 109, 0.08);
+  border-left-color: var(--accent);
+}
+
+.callout-warning {
+  background: rgba(229, 192, 123, 0.08);
+  border-left-color: var(--warning);
+}
+
+.callout-danger {
+  background: rgba(224, 108, 117, 0.08);
+  border-left-color: var(--danger);
+}
+
+.callout-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.callout-icon {
+  font-size: 1.1rem;
+}
+
+.callout-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.callout-content {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.callout-content p {
+  margin: 0;
+}
+
+.callout-content p+p {
+  margin-top: 0.5rem;
+}
+
+/* =============================================
+   CODE SYNTAX HIGHLIGHTING (rehype-pretty-code)
+   ============================================= */
+
+.post-content pre {
+  position: relative;
+}
+
+.post-content pre>code {
+  display: grid;
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.post-content pre code .line {
+  padding: 0 1rem;
+  border-left: 2px solid transparent;
+}
+
+.post-content pre code .line--highlighted {
+  background: rgba(74, 156, 109, 0.1);
+  border-left-color: var(--accent);
+}
+
+.post-content code[data-line-numbers] {
+  counter-reset: line;
+}
+
+.post-content code[data-line-numbers]>.line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1rem;
+  margin-right: 1.25rem;
+  text-align: right;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* Inline code vs block code */
+.post-content :not(pre)>code {
+  background: var(--bg-tertiary);
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+[data-rehype-pretty-code-figure] {
+  margin: 1.5rem 0;
+}
+
+[data-rehype-pretty-code-figure] pre {
+  margin: 0;
+}
+
+/* Code block title (filename) */
+[data-rehype-pretty-code-title] {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+}
+
+[data-rehype-pretty-code-title]+pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* =============================================
+   POST PAGINATION (Previous/Next)
+   ============================================= */
+
+.post-pagination {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.post-pagination-item {
+  min-width: 0;
+}
+
+.post-pagination-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.post-pagination-link:hover {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+}
+
+.post-pagination-link.next {
+  text-align: right;
+}
+
+.post-pagination-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.post-pagination-title {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =============================================
+   MDX IMAGE
+   ============================================= */
+
+.mdx-image-wrapper {
+  display: block;
+  margin: 1.5rem 0;
+}
+
+.mdx-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* =============================================
+   DRAFT PAGES
+   ============================================= */
+
+.draft-banner {
+  background: var(--warning);
+  color: #1a1d21;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.draft-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--warning);
+  background: rgba(229, 192, 123, 0.15);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+.drafts-notice {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 2rem;
+  padding: 0.75rem 1rem;
+  background: rgba(229, 192, 123, 0.08);
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+}
+
+/* =============================================
    RESPONSIVE
    ============================================= */
 
@@ -1572,6 +1878,10 @@ a:hover {
   .stack-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .post-pagination {
+    grid-template-columns: 1fr;
   }
 
   .subscribe-form {

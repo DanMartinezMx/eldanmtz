@@ -6,7 +6,13 @@ import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getRelatedPosts, getPostsInSeries, getConnieSeries } from "@/lib/content";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import { getRelatedPosts, getPostsInSeries, getConnieSeries, getAdjacentPosts, extractHeadings } from "@/lib/content";
+import { mdxComponents } from "@/components/mdx";
+import { TableOfContents } from "@/components/TableOfContents";
+import { PostNavigation } from "@/components/PostNavigation";
+import { ReadingProgress } from "@/components/ReadingProgress";
 import { SubscribeCTA } from "@/components/SubscribeCTA";
 
 interface Props {
@@ -70,6 +76,8 @@ export default async function BlogPost({ params }: Props) {
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
   const relatedPosts = data.category ? getRelatedPosts(filename, data.category, 3) : [];
+  const { previous, next } = getAdjacentPosts(filename);
+  const headings = extractHeadings(content);
 
   let seriesPosts: ReturnType<typeof getConnieSeries> = [];
   let seriesName = "";
@@ -122,109 +130,125 @@ export default async function BlogPost({ params }: Props) {
   };
 
   return (
-    <article className="blog-post">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
-
-      <Link href="/blog" className="back-link">← Volver al blog</Link>
-
-      {data.image && (
-        <Image
-          src={data.image}
-          alt={data.title}
-          width={800}
-          height={400}
-          className="post-image"
-          priority
+    <>
+      <ReadingProgress />
+      <article className="blog-post">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      )}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        />
 
-      <h1>{data.title}</h1>
+        <Link href="/blog" className="back-link">← Volver al blog</Link>
 
-      <div className="post-meta">
-        <time dateTime={data.createdAt}>
-          {new Date(data.createdAt).toLocaleDateString("es-MX", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            timeZone: "America/Mexico_City",
-          })}
-        </time>
-        {data.category && <span className="post-category">{data.category}</span>}
-        <span className="reading-time">☕ {readingTime} min de lectura</span>
-      </div>
+        {data.image && (
+          <Image
+            src={data.image}
+            alt={data.title}
+            width={800}
+            height={400}
+            className="post-image"
+            priority
+          />
+        )}
 
-      {seriesPosts.length > 1 && (
-        <nav className="series-nav">
-          <p className="series-title">📚 Serie: {seriesName} ({currentSeriesIndex + 1} de {seriesPosts.length})</p>
-          <div className="series-links">
-            {seriesPosts.map((sp, i) => (
-              <Link
-                key={sp.slug}
-                href={`/blog/${sp.slug}`}
-                className={`series-link ${sp.slug === filename ? "current" : ""}`}
-              >
-                {i + 1}. {sp.title}
-              </Link>
-            ))}
-          </div>
-        </nav>
-      )}
+        <h1>{data.title}</h1>
 
-      <div className="post-content">
-        <MDXRemote source={content} />
-      </div>
+        <div className="post-meta">
+          <time dateTime={data.createdAt}>
+            {new Date(data.createdAt).toLocaleDateString("es-MX", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              timeZone: "America/Mexico_City",
+            })}
+          </time>
+          {data.category && <span className="post-category">{data.category}</span>}
+          <span className="reading-time">☕ {readingTime} min de lectura</span>
+        </div>
 
-      <div className="post-share">
-        <span>Compartir:</span>
-        <a
-          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(data.title)}&url=${encodeURIComponent(`https://eldanmtz.com/blog/${filename}`)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          𝕏
-        </a>
-        <a
-          href={`https://wa.me/?text=${encodeURIComponent(`${data.title} https://eldanmtz.com/blog/${filename}`)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          WhatsApp
-        </a>
-      </div>
+        {seriesPosts.length > 1 && (
+          <nav className="series-nav">
+            <p className="series-title">📚 Serie: {seriesName} ({currentSeriesIndex + 1} de {seriesPosts.length})</p>
+            <div className="series-links">
+              {seriesPosts.map((sp, i) => (
+                <Link
+                  key={sp.slug}
+                  href={`/blog/${sp.slug}`}
+                  className={`series-link ${sp.slug === filename ? "current" : ""}`}
+                >
+                  {i + 1}. {sp.title}
+                </Link>
+              ))}
+            </div>
+          </nav>
+        )}
 
-      <SubscribeCTA />
+        <TableOfContents headings={headings} />
 
-      {relatedPosts.length > 0 && (
-        <section className="related-posts">
-          <h3>Posts relacionados</h3>
-          <div className="related-list">
-            {relatedPosts.map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`} className="related-item">
-                <span>{post.title}</span>
-                <time>
-                  {new Date(post.createdAt).toLocaleDateString("es-MX", {
-                    month: "short",
-                    day: "numeric",
-                    timeZone: "America/Mexico_City",
-                  })}
-                </time>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+        <div className="post-content">
+          <MDXRemote
+            source={content}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                rehypePlugins: [
+                  rehypeSlug,
+                  [rehypePrettyCode, {
+                    theme: "github-dark-dimmed",
+                    keepBackground: true,
+                  }],
+                ],
+              },
+            }}
+          />
+        </div>
 
-      <nav className="post-nav">
-        <Link href="/blog">← Todos los posts</Link>
-        <a href="#top">↑ Subir</a>
-      </nav>
-    </article>
+        <div className="post-share">
+          <span>Compartir:</span>
+          <a
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(data.title)}&url=${encodeURIComponent(`https://eldanmtz.com/blog/${filename}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            𝕏
+          </a>
+          <a
+            href={`https://wa.me/?text=${encodeURIComponent(`${data.title} https://eldanmtz.com/blog/${filename}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WhatsApp
+          </a>
+        </div>
+
+        <SubscribeCTA />
+
+        {relatedPosts.length > 0 && (
+          <section className="related-posts">
+            <h3>Posts relacionados</h3>
+            <div className="related-list">
+              {relatedPosts.map((post) => (
+                <Link key={post.slug} href={`/blog/${post.slug}`} className="related-item">
+                  <span>{post.title}</span>
+                  <time>
+                    {new Date(post.createdAt).toLocaleDateString("es-MX", {
+                      month: "short",
+                      day: "numeric",
+                      timeZone: "America/Mexico_City",
+                    })}
+                  </time>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <PostNavigation previousPost={previous} nextPost={next} />
+      </article>
+    </>
   );
 }
