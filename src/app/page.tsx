@@ -1,5 +1,6 @@
 import { getPosts, getMicroblog, getAllDates } from "@/lib/content";
 import { ContributionsCalendar } from "@/components/ContributionsCalendar";
+import { ConnieSection } from "@/components/ConnieSection";
 import Link from "next/link";
 
 export default function Home() {
@@ -8,6 +9,9 @@ export default function Home() {
   const recentPosts = allPosts.slice(0, 5);
   const recentMicroblog = allMicroblog.slice(0, 10);
   const allDates = getAllDates();
+
+  // Latest 3 Connie posts
+  const conniePosts = allPosts.filter((p) => p.category === "Connie").slice(0, 3);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -91,6 +95,9 @@ export default function Home() {
 
       {/* Full-width calendar */}
       <ContributionsCalendar postDates={allDates} />
+
+      {/* Connie guides section */}
+      <ConnieSection posts={conniePosts} />
     </div>
   );
 }

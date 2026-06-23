@@ -105,3 +105,8 @@ export function getSearchIndex(): { title: string; description: string; category
         slug: p.slug,
     }));
 }
+export function getConnieSeries(): Post[] {
+    return getPosts()
+        .filter((p) => p.category === "Connie")
+        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()); // oldest first = Part 1
+}
