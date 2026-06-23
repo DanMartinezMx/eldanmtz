@@ -15,10 +15,10 @@ interface SearchItem {
 }
 
 interface NavigationProps {
-  searchIndex: SearchItem[];
+  searchIndex?: SearchItem[];
 }
 
-export function Navigation({ searchIndex }: NavigationProps) {
+export function Navigation({ searchIndex = [] }: NavigationProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -58,7 +58,6 @@ export function Navigation({ searchIndex }: NavigationProps) {
   return (
     <header className="site-nav">
       <div className="nav-inner">
-        {/* Left: Logo image */}
         <Link href="/" className="nav-logo">
           <Image
             src="/logo.png"
@@ -70,7 +69,6 @@ export function Navigation({ searchIndex }: NavigationProps) {
           />
         </Link>
 
-        {/* Center: Page links */}
         <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
           {navItems.map((item) => (
             <Link
@@ -87,13 +85,11 @@ export function Navigation({ searchIndex }: NavigationProps) {
           </div>
         </nav>
 
-        {/* Right: Search + Socials */}
         <div className="nav-socials">
           <SearchDialog posts={searchIndex} />
           {socials}
         </div>
 
-        {/* Mobile hamburger */}
         <button
           className="nav-hamburger"
           onClick={() => setMenuOpen(!menuOpen)}
