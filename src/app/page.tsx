@@ -10,7 +10,6 @@ export default function Home() {
   const recentMicroblog = allMicroblog.slice(0, 10);
   const allDates = getAllDates();
 
-  // Latest 3 Connie posts
   const conniePosts = allPosts.filter((p) => p.category === "Connie").slice(0, 3);
 
   const jsonLd = {
@@ -40,7 +39,6 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Posts Recientes — card grid */}
       <section className="home-recent">
         <div className="section-header">
           <h2>Posts Recientes</h2>
@@ -78,38 +76,38 @@ export default function Home() {
         )}
       </section>
 
-      {/* Microblog */}
-      <section className="home-microblog-section">
-        <h2>Microblog</h2>
-        {recentMicroblog.length > 0 ? (
-          <div className="microblog-timeline">
-            {recentMicroblog.map((post, i) => (
-              <div key={i} className="micro-entry">
-                <div className="micro-dot" />
-                <div className="micro-content">
-                  <strong>{post.title}</strong>
-                  {post.body && <p>{post.body.slice(0, 140)}{post.body.length > 140 ? "..." : ""}</p>}
-                  <time>
-                    {new Date(post.createdAt).toLocaleDateString("es-MX", {
-                      month: "short",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </time>
+      <section className="home-activity-row">
+        <div className="home-calendar">
+          <ContributionsCalendar postDates={allDates} />
+        </div>
+        <div className="home-microblog">
+          <h2>Microblog</h2>
+          {recentMicroblog.length > 0 ? (
+            <div className="microblog-timeline">
+              {recentMicroblog.map((post, i) => (
+                <div key={i} className="micro-entry">
+                  <div className="micro-dot" />
+                  <div className="micro-content">
+                    <strong>{post.title}</strong>
+                    {post.body && <p>{post.body.slice(0, 140)}{post.body.length > 140 ? "..." : ""}</p>}
+                    <time>
+                      {new Date(post.createdAt).toLocaleDateString("es-MX", {
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </time>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="empty">Próximamente...</p>
-        )}
+              ))}
+            </div>
+          ) : (
+            <p className="empty">Próximamente...</p>
+          )}
+        </div>
       </section>
 
-      {/* Full-width calendar */}
-      <ContributionsCalendar postDates={allDates} />
-
-      {/* Connie guides section */}
       <ConnieSection posts={conniePosts} />
     </div>
   );
