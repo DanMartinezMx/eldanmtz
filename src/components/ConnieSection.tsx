@@ -27,6 +27,7 @@ export function ConnieSection({ posts }: ConnieSectionProps) {
                                     month: "short",
                                     day: "numeric",
                                     year: "numeric",
+                                    timeZone: "America/Mexico_City",
                                 })}
                             </time>
                             <span>☕ {post.readingTime} min</span>

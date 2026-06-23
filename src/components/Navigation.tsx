@@ -80,6 +80,9 @@ export function Navigation({ searchIndex = [] }: NavigationProps) {
               {item.label}
             </Link>
           ))}
+          <div className="nav-search-mobile">
+            <SearchDialog posts={searchIndex} />
+          </div>
           <div className="nav-socials-mobile">
             {socials}
           </div>

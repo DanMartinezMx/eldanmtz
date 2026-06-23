@@ -21,10 +21,8 @@ interface BlogFiltersProps {
 export function BlogFilters({ posts, grouped, sortedYears }: BlogFiltersProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
-  // Get unique categories from posts
   const categories = Array.from(new Set(posts.map((p) => p.category).filter(Boolean)));
 
-  // Filter posts by category
   const filteredGrouped = activeCategory
     ? Object.fromEntries(
       Object.entries(grouped).map(([year, yearPosts]) => [
@@ -38,7 +36,6 @@ export function BlogFilters({ posts, grouped, sortedYears }: BlogFiltersProps) {
 
   return (
     <div className="blog-filters-container">
-      {/* Category filter chips */}
       <div className="blog-filter-chips">
         <button
           className={`filter-chip ${activeCategory === null ? "active" : ""}`}
@@ -57,7 +54,6 @@ export function BlogFilters({ posts, grouped, sortedYears }: BlogFiltersProps) {
         ))}
       </div>
 
-      {/* Posts grid by year */}
       {filteredYears.map((year) => (
         <section key={year} className="blog-year-section">
           <h2 className="blog-year-heading">{year}</h2>
@@ -74,6 +70,7 @@ export function BlogFilters({ posts, grouped, sortedYears }: BlogFiltersProps) {
                     {new Date(post.createdAt).toLocaleDateString("es-MX", {
                       month: "short",
                       day: "numeric",
+                      timeZone: "America/Mexico_City",
                     })}
                   </time>
                 </div>

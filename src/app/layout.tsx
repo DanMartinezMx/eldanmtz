@@ -54,8 +54,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" suppressHydrationWarning>
       <body>
+        <a href="#main" className="skip-link">Saltar al contenido</a>
         <NavWrapper />
-        <main className="main-content">{children}</main>
+        <main id="main" className="main-content">{children}</main>
         <Footer />
         <Analytics />
         <SpeedInsights />

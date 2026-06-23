@@ -66,30 +66,24 @@ export default async function BlogPost({ params }: Props) {
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
 
-  // Reading time
   const wordCount = content.split(/\s+/).filter(Boolean).length;
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
-  // Related posts
   const relatedPosts = data.category ? getRelatedPosts(filename, data.category, 3) : [];
 
-  // Series — auto-detect Connie category or use manual series field
   let seriesPosts: ReturnType<typeof getConnieSeries> = [];
   let seriesName = "";
 
   if (data.series) {
-    // Manual series from frontmatter
     seriesPosts = getPostsInSeries(data.series);
     seriesName = data.series;
   } else if (data.category === "Connie") {
-    // Auto-series for Connie category
     seriesPosts = getConnieSeries();
     seriesName = "Guías Confluence Cloud";
   }
 
   const currentSeriesIndex = seriesPosts.findIndex((p) => p.slug === filename);
 
-  // Structured data: BlogPosting
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -117,7 +111,6 @@ export default async function BlogPost({ params }: Props) {
     wordCount: wordCount,
   };
 
-  // Structured data: BreadcrumbList
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -160,13 +153,13 @@ export default async function BlogPost({ params }: Props) {
             year: "numeric",
             month: "long",
             day: "numeric",
+            timeZone: "America/Mexico_City",
           })}
         </time>
         {data.category && <span className="post-category">{data.category}</span>}
         <span className="reading-time">☕ {readingTime} min de lectura</span>
       </div>
 
-      {/* Series navigation */}
       {seriesPosts.length > 1 && (
         <nav className="series-nav">
           <p className="series-title">📚 Serie: {seriesName} ({currentSeriesIndex + 1} de {seriesPosts.length})</p>
@@ -188,10 +181,26 @@ export default async function BlogPost({ params }: Props) {
         <MDXRemote source={content} />
       </div>
 
-      {/* Subscribe CTA */}
+      <div className="post-share">
+        <span>Compartir:</span>
+        <a
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(data.title)}&url=${encodeURIComponent(`https://eldanmtz.com/blog/${filename}`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          𝕏
+        </a>
+        <a
+          href={`https://wa.me/?text=${encodeURIComponent(`${data.title} https://eldanmtz.com/blog/${filename}`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          WhatsApp
+        </a>
+      </div>
+
       <SubscribeCTA />
 
-      {/* Related posts */}
       {relatedPosts.length > 0 && (
         <section className="related-posts">
           <h3>Posts relacionados</h3>
@@ -203,6 +212,7 @@ export default async function BlogPost({ params }: Props) {
                   {new Date(post.createdAt).toLocaleDateString("es-MX", {
                     month: "short",
                     day: "numeric",
+                    timeZone: "America/Mexico_City",
                   })}
                 </time>
               </Link>
