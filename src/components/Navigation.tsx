@@ -5,8 +5,20 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import { SearchDialog } from "./SearchDialog";
 
-export function Navigation() {
+interface SearchItem {
+  title: string;
+  description: string;
+  category: string;
+  slug: string;
+}
+
+interface NavigationProps {
+  searchIndex: SearchItem[];
+}
+
+export function Navigation({ searchIndex }: NavigationProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -75,8 +87,9 @@ export function Navigation() {
           </div>
         </nav>
 
-        {/* Right: Socials */}
+        {/* Right: Search + Socials */}
         <div className="nav-socials">
+          <SearchDialog posts={searchIndex} />
           {socials}
         </div>
 

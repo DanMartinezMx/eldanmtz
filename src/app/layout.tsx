@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Navigation } from "@/components/Navigation";
+import { NavWrapper } from "@/components/NavWrapper";
 import { Footer } from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" suppressHydrationWarning>
       <body>
-        <Navigation />
+        <NavWrapper />
         <main className="main-content">{children}</main>
         <Footer />
         <Analytics />
