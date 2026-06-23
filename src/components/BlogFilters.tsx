@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
 interface Post {
   title: string;
@@ -10,7 +9,7 @@ interface Post {
   category: string;
   createdAt: string;
   slug: string;
-  draft: boolean;
+  readingTime: number;
 }
 
 interface BlogFiltersProps {
@@ -19,89 +18,85 @@ interface BlogFiltersProps {
   sortedYears: string[];
 }
 
-const categories = [
-  "Todas",
-  "Recomendaciones",
-  "Random",
-  "Personal",
-  "Cine y TV",
-  "Juegos",
-  "Viajes",
-  "Tech",
-  "Foodies",
-  "Coding",
-  "Connie",
-];
+export function BlogFilters({ posts, grouped, sortedYears }: BlogFiltersProps) {
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
-function BlogFiltersInner({ posts }: BlogFiltersProps) {
-  const searchParams = useSearchParams();
-  const initialCategory = searchParams?.get("category") || "Todas";
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  // Get unique categories from posts
+  const categories = Array.from(new Set(posts.map((p) => p.category).filter(Boolean)));
 
-  const filtered =
-    selectedCategory === "Todas"
-      ? posts
-      : posts.filter((p) => p.category === selectedCategory);
-
-  const filteredGrouped = filtered.reduce<Record<string, Post[]>>((acc, post) => {
-    const year = new Date(post.createdAt).getFullYear().toString();
-    if (!acc[year]) acc[year] = [];
-    acc[year].push(post);
-    return acc;
-  }, {});
+  // Filter posts by category
+  const filteredGrouped = activeCategory
+    ? Object.fromEntries(
+      Object.entries(grouped).map(([year, yearPosts]) => [
+        year,
+        yearPosts.filter((p) => p.category === activeCategory),
+      ]).filter(([, yearPosts]) => (yearPosts as Post[]).length > 0)
+    )
+    : grouped;
 
   const filteredYears = Object.keys(filteredGrouped).sort((a, b) => Number(b) - Number(a));
 
   return (
-    <>
-      <aside className="blog-filters">
-        <h3>Categorías</h3>
-        <div className="category-list">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`category-btn ${selectedCategory === cat ? "active" : ""}`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </aside>
+    <div className="blog-filters-container">
+      {/* Category filter chips */}
+      <div className="blog-filter-chips">
+        <button
+          className={`filter-chip ${activeCategory === null ? "active" : ""}`}
+          onClick={() => setActiveCategory(null)}
+        >
+          Todos
+        </button>
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            className={`filter-chip ${activeCategory === cat ? "active" : ""}`}
+            onClick={() => setActiveCategory(cat)}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
 
-      <div className="blog-posts">
-        <h1>Blog</h1>
-        {filteredYears.map((year) => (
-          <div key={year} className="year-group">
-            <h2 className="year-heading">{year}</h2>
-            <div className="year-posts">
-              {filteredGrouped[year].map((post) => (
-                <Link key={post.slug} href={`/blog/${post.slug}`} className="blog-post-item">
-                  <div className="post-info">
-                    <span className="post-title">{post.title}</span>
-                    <span className="post-category">{post.category}</span>
-                  </div>
+      {/* Posts grid by year */}
+      {filteredYears.map((year) => (
+        <section key={year} className="blog-year-section">
+          <h2 className="blog-year-heading">{year}</h2>
+          <div className="blog-posts-grid">
+            {(filteredGrouped[year] as Post[]).map((post) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="blog-post-card"
+              >
+                <div className="blog-post-card-top">
+                  <span className="blog-post-card-category">{post.category}</span>
                   <time>
                     {new Date(post.createdAt).toLocaleDateString("es-MX", {
                       month: "short",
                       day: "numeric",
                     })}
                   </time>
-                </Link>
-              ))}
-            </div>
+                </div>
+                <h3 className="blog-post-card-title">{post.title}</h3>
+                {post.description && (
+                  <p className="blog-post-card-description">
+                    {post.description.length > 120
+                      ? post.description.slice(0, 120) + "..."
+                      : post.description}
+                  </p>
+                )}
+                <div className="blog-post-card-footer">
+                  <span>☕ {post.readingTime} min</span>
+                </div>
+              </Link>
+            ))}
           </div>
-        ))}
-        {filtered.length === 0 && <p className="empty">No hay posts en esta categoría.</p>}
-      </div>
-    </>
-  );
-}
+        </section>
+      ))}
 
-export function BlogFilters(props: BlogFiltersProps) {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <BlogFiltersInner {...props} />
-    </Suspense>
+      {filteredYears.length === 0 && (
+        <p className="empty">No hay posts en esta categoría todavía.</p>
+      )}
+    </div>
   );
 }

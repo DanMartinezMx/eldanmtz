@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Home() {
   const allPosts = getPosts();
   const allMicroblog = getMicroblog();
-  const recentPosts = allPosts.slice(0, 5);
+  const recentPosts = allPosts.slice(0, 6);
   const recentMicroblog = allMicroblog.slice(0, 10);
   const allDates = getAllDates();
 
@@ -40,57 +40,70 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <section className="home-grid">
-        {/* Left column: Posts */}
-        <div className="home-posts">
+      {/* Posts Recientes — card grid */}
+      <section className="home-recent">
+        <div className="section-header">
           <h2>Posts Recientes</h2>
-          {recentPosts.length > 0 ? (
-            <div className="posts-list">
-              {recentPosts.map((post) => (
-                <Link key={post.slug} href={`/blog/${post.slug}`} className="post-link">
-                  <span>{post.title}</span>
+          <Link href="/blog" className="see-all">Ver todos →</Link>
+        </div>
+        {recentPosts.length > 0 ? (
+          <div className="recent-grid">
+            {recentPosts.map((post) => (
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="recent-card">
+                <div className="recent-card-top">
+                  <span className="recent-card-category">{post.category}</span>
                   <time>
                     {new Date(post.createdAt).toLocaleDateString("es-MX", {
                       month: "short",
                       day: "numeric",
                     })}
                   </time>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <p className="empty">Próximamente...</p>
-          )}
-          <Link href="/blog" className="see-all">Ver todos →</Link>
-        </div>
-
-        {/* Right column: Microblog */}
-        <div className="home-microblog">
-          <h2>Microblog</h2>
-          {recentMicroblog.length > 0 ? (
-            <div className="microblog-timeline">
-              {recentMicroblog.map((post, i) => (
-                <div key={i} className="micro-entry">
-                  <div className="micro-dot" />
-                  <div className="micro-content">
-                    <strong>{post.title}</strong>
-                    {post.body && <p>{post.body.slice(0, 140)}{post.body.length > 140 ? "..." : ""}</p>}
-                    <time>
-                      {new Date(post.createdAt).toLocaleDateString("es-MX", {
-                        month: "short",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </time>
-                  </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="empty">Próximamente...</p>
-          )}
-        </div>
+                <h3 className="recent-card-title">{post.title}</h3>
+                {post.description && (
+                  <p className="recent-card-description">
+                    {post.description.length > 100
+                      ? post.description.slice(0, 100) + "..."
+                      : post.description}
+                  </p>
+                )}
+                <div className="recent-card-footer">
+                  <span>☕ {post.readingTime} min de lectura</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <p className="empty">Próximamente...</p>
+        )}
+      </section>
+
+      {/* Microblog */}
+      <section className="home-microblog-section">
+        <h2>Microblog</h2>
+        {recentMicroblog.length > 0 ? (
+          <div className="microblog-timeline">
+            {recentMicroblog.map((post, i) => (
+              <div key={i} className="micro-entry">
+                <div className="micro-dot" />
+                <div className="micro-content">
+                  <strong>{post.title}</strong>
+                  {post.body && <p>{post.body.slice(0, 140)}{post.body.length > 140 ? "..." : ""}</p>}
+                  <time>
+                    {new Date(post.createdAt).toLocaleDateString("es-MX", {
+                      month: "short",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </time>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="empty">Próximamente...</p>
+        )}
       </section>
 
       {/* Full-width calendar */}
