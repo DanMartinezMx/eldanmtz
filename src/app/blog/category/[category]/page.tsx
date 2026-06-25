@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getPosts } from "@/lib/content";
+import { CATEGORIES, SITE_URL, categoryToSlug } from "@/lib/config";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -7,29 +8,12 @@ interface Props {
     params: Promise<{ category: string }>;
 }
 
-const VALID_CATEGORIES = [
-    "Tech",
-    "Coding",
-    "Gaming",
-    "Foodies",
-    "Cine y TV",
-    "Viajes",
-    "Personal",
-    "Random",
-    "Recomendaciones",
-    "Connie",
-];
-
 export async function generateStaticParams() {
-    return VALID_CATEGORIES.map((cat) => ({
-        category: cat.toLowerCase().replace(/ /g, "-"),
-    }));
+    return CATEGORIES.map((cat) => ({ category: categoryToSlug(cat) }));
 }
 
 function slugToCategory(slug: string): string | undefined {
-    return VALID_CATEGORIES.find(
-        (cat) => cat.toLowerCase().replace(/ /g, "-") === slug
-    );
+    return CATEGORIES.find((cat) => categoryToSlug(cat) === slug);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -42,12 +26,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: `${category} — Blog`,
         description: `Todos los posts sobre ${category} en El otro Tab.`,
         alternates: {
-            canonical: `https://eldanmtz.com/blog/category/${slug}`,
+            canonical: `${SITE_URL}/blog/category/${slug}`,
         },
         openGraph: {
             title: `${category} — El otro Tab`,
             description: `Todos los posts sobre ${category} en El otro Tab.`,
-            url: `https://eldanmtz.com/blog/category/${slug}`,
+            url: `${SITE_URL}/blog/category/${slug}`,
         },
     };
 }
@@ -67,7 +51,7 @@ export default async function CategoryPage({ params }: Props) {
         "@type": "CollectionPage",
         name: `${category} — El otro Tab`,
         description: `Todos los posts sobre ${category}`,
-        url: `https://eldanmtz.com/blog/category/${slug}`,
+        url: `${SITE_URL}/blog/category/${slug}`,
         inLanguage: "es-MX",
     };
 

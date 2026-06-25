@@ -1,13 +1,9 @@
 import { getPosts } from "@/lib/content";
+import { CATEGORIES, SITE_URL, categoryToSlug } from "@/lib/config";
 import type { MetadataRoute } from "next";
 
-const VALID_CATEGORIES = [
-  "Tech", "Coding", "Gaming", "Foodies", "Cine y TV",
-  "Viajes", "Personal", "Random", "Recomendaciones", "Connie",
-];
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://eldanmtz.com";
+  const baseUrl = SITE_URL;
   const posts = getPosts();
 
   const latestPostDate = posts.length > 0 ? new Date(posts[0].createdAt) : new Date();
@@ -20,12 +16,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Category archive pages (only include categories that have posts)
-  const categoriesWithPosts = VALID_CATEGORIES.filter(
+  const categoriesWithPosts = CATEGORIES.filter(
     (cat) => posts.some((p) => p.category === cat)
   );
 
   const categoryPages: MetadataRoute.Sitemap = categoriesWithPosts.map((cat) => ({
-    url: `${baseUrl}/blog/category/${cat.toLowerCase().replace(/ /g, "-")}`,
+    url: `${baseUrl}/blog/category/${categoryToSlug(cat)}`,
     lastModified: latestPostDate,
     changeFrequency: "weekly",
     priority: 0.7,

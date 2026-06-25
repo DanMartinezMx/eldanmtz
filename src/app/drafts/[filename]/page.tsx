@@ -1,6 +1,3 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
 import Link from "next/link";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -8,7 +5,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
-import { extractHeadings } from "@/lib/content";
+import { extractHeadings, getPostBySlug } from "@/lib/content";
 import { mdxComponents } from "@/components/mdx";
 import { TableOfContents } from "@/components/TableOfContents";
 import { ReadingProgress } from "@/components/ReadingProgress";
@@ -17,30 +14,20 @@ interface Props {
   params: Promise<{ filename: string }>;
 }
 
-const postsDir = path.join(process.cwd(), "content/posts");
-
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
 export default async function DraftPost({ params }: Props) {
   const { filename } = await params;
-  const filePath = path.join(postsDir, `${filename}.mdx`);
+  const post = getPostBySlug(filename);
 
-  if (!fs.existsSync(filePath)) {
+  // This route only serves drafts; published posts live under /blog.
+  if (!post || !post.data.draft) {
     notFound();
   }
 
-  const raw = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(raw);
-
-  if (!data.draft) {
-    // Not a draft — redirect to published version
-    notFound();
-  }
-
-  const wordCount = content.split(/\s+/).filter(Boolean).length;
-  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+  const { data, content, wordCount, readingTime } = post;
   const headings = extractHeadings(content);
 
   return (
@@ -56,7 +43,7 @@ export default async function DraftPost({ params }: Props) {
         {data.image && (
           <Image
             src={data.image}
-            alt={data.title}
+            alt={data.title || ""}
             width={800}
             height={400}
             className="post-image"

@@ -1,36 +1,19 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+import { getPosts } from "@/lib/content";
+import { SITE_URL } from "@/lib/config";
 
 export async function GET() {
-  const postsDir = path.join(process.cwd(), "content/posts");
-  const files = fs.existsSync(postsDir)
-    ? fs.readdirSync(postsDir).filter((f) => f.endsWith(".mdx") || f.endsWith(".md"))
-    : [];
-
-  const posts = files
-    .map((file) => {
-      const raw = fs.readFileSync(path.join(postsDir, file), "utf-8");
-      const { data } = matter(raw);
-      return {
-        title: data.title || "",
-        description: data.description || "",
-        slug: file.replace(/\.(mdx|md)$/, ""),
-        date: data.createdAt || "",
-      };
-    })
-    .filter((p) => p.date)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  // getPosts() excludes drafts, so unpublished posts never leak into the feed.
+  const posts = getPosts().filter((p) => p.createdAt);
 
   const items = posts
     .map(
       (post) => `
     <item>
       <title><![CDATA[${post.title}]]></title>
-      <link>https://eldanmtz.com/blog/${post.slug}</link>
+      <link>${SITE_URL}/blog/${post.slug}</link>
       <description><![CDATA[${post.description}]]></description>
-      <pubDate>${new Date(post.date).toUTCString()}</pubDate>
-      <guid isPermaLink="true">https://eldanmtz.com/blog/${post.slug}</guid>
+      <pubDate>${new Date(post.createdAt).toUTCString()}</pubDate>
+      <guid isPermaLink="true">${SITE_URL}/blog/${post.slug}</guid>
     </item>`
     )
     .join("");
@@ -39,11 +22,11 @@ export async function GET() {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>El otro Tab</title>
-    <link>https://eldanmtz.com</link>
+    <link>${SITE_URL}</link>
     <description>Lo que pasa cuando cierras la laptop. Un blog sobre tech, comida, juegos y la vida real.</description>
     <language>es-mx</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <atom:link href="https://eldanmtz.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
     ${items}
   </channel>
 </rss>`;

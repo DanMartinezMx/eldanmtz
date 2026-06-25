@@ -1,23 +1,40 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
+
+type Theme = "dark" | "light";
+
+// The `data-theme` attribute on <html> is the source of truth — it's set before
+// paint by the inline script in the root layout. We subscribe to it rather than
+// holding theme in component state, so there's no flash and no setState-in-effect.
+function subscribe(callback: () => void) {
+    const observer = new MutationObserver(callback);
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+    });
+    return () => observer.disconnect();
+}
+
+function getSnapshot(): Theme {
+    return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+}
+
+function getServerSnapshot(): Theme {
+    return "dark";
+}
 
 export function ThemeToggle() {
-    const [theme, setTheme] = useState<"dark" | "light">("dark");
-
-    useEffect(() => {
-        const saved = localStorage.getItem("theme") as "dark" | "light" | null;
-        if (saved) {
-            setTheme(saved);
-            document.documentElement.setAttribute("data-theme", saved);
-        }
-    }, []);
+    const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
     const toggle = () => {
-        const next = theme === "dark" ? "light" : "dark";
-        setTheme(next);
-        localStorage.setItem("theme", next);
+        const next: Theme = theme === "dark" ? "light" : "dark";
         document.documentElement.setAttribute("data-theme", next);
+        try {
+            localStorage.setItem("theme", next);
+        } catch {
+            // localStorage may be unavailable (private mode); the toggle still works for the session.
+        }
     };
 
     return (

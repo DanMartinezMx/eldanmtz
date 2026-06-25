@@ -26,12 +26,10 @@ export default function BlogPage() {
     return acc;
   }, {});
 
-  const sortedYears = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
-
   return (
     <div className="blog-page">
       <div className="blog-layout">
-        <BlogFilters posts={posts} grouped={grouped} sortedYears={sortedYears} />
+        <BlogFilters posts={posts} grouped={grouped} />
       </div>
     </div>
   );

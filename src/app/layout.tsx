@@ -50,10 +50,15 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
+// Applies the saved theme (or OS preference) before first paint to avoid a
+// flash of the wrong theme. Runs synchronously as the first thing in <body>.
+const themeScript = `(function(){try{var s=localStorage.getItem('theme');var t=s||(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
       <body>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <a href="#main" className="skip-link">Saltar al contenido</a>
         <NavWrapper />
         <main id="main" className="main-content">{children}</main>

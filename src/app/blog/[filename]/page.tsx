@@ -1,6 +1,3 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
 import Link from "next/link";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -8,7 +5,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
-import { getRelatedPosts, getPostsInSeries, getConnieSeries, getAdjacentPosts, extractHeadings } from "@/lib/content";
+import { getRelatedPosts, getPostsInSeries, getConnieSeries, getAdjacentPosts, extractHeadings, getPostBySlug, getPosts } from "@/lib/content";
+import { SITE_URL } from "@/lib/config";
 import { mdxComponents } from "@/components/mdx";
 import { TableOfContents } from "@/components/TableOfContents";
 import { PostNavigation } from "@/components/PostNavigation";
@@ -19,43 +17,42 @@ interface Props {
   params: Promise<{ filename: string }>;
 }
 
-const postsDir = path.join(process.cwd(), "content/posts");
-
 export async function generateStaticParams() {
-  if (!fs.existsSync(postsDir)) return [];
-  const files = fs.readdirSync(postsDir).filter((f) => f.endsWith(".mdx"));
-  return files.map((f) => ({ filename: f.replace(/\.mdx$/, "") }));
+  return getPosts().map((p) => ({ filename: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { filename } = await params;
-  const filePath = path.join(postsDir, `${filename}.mdx`);
+  const post = getPostBySlug(filename);
 
-  if (!fs.existsSync(filePath)) {
+  if (!post) {
     return { title: "Post no encontrado" };
   }
 
-  const raw = fs.readFileSync(filePath, "utf-8");
-  const { data } = matter(raw);
+  const { data } = post;
+  const url = `${SITE_URL}/blog/${filename}`;
+  const description =
+    data.description ||
+    `Lee "${data.title}" en El otro Tab — un blog personal sobre ${data.category?.toLowerCase() || "la vida"}.`;
 
   return {
     title: data.title,
-    description: data.description || `Lee "${data.title}" en El otro Tab — un blog personal sobre ${data.category?.toLowerCase() || "la vida"}.`,
+    description,
     alternates: {
-      canonical: `https://eldanmtz.com/blog/${filename}`,
+      canonical: url,
     },
     openGraph: {
       title: data.title,
-      description: data.description || `Lee "${data.title}" en El otro Tab — un blog personal sobre ${data.category?.toLowerCase() || "la vida"}.`,
+      description,
       type: "article",
       publishedTime: data.createdAt,
-      url: `https://eldanmtz.com/blog/${filename}`,
+      url,
       ...(data.image && { images: [{ url: data.image }] }),
     },
     twitter: {
       card: "summary_large_image",
       title: data.title,
-      description: data.description || `Lee "${data.title}" en El otro Tab — un blog personal sobre ${data.category?.toLowerCase() || "la vida"}.`,
+      description,
       ...(data.image && { images: [data.image] }),
     },
   };
@@ -63,17 +60,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPost({ params }: Props) {
   const { filename } = await params;
-  const filePath = path.join(postsDir, `${filename}.mdx`);
+  const post = getPostBySlug(filename);
 
-  if (!fs.existsSync(filePath)) {
+  // Drafts are private — they live under /drafts, not the public /blog URL.
+  if (!post || post.data.draft) {
     notFound();
   }
 
-  const raw = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(raw);
-
-  const wordCount = content.split(/\s+/).filter(Boolean).length;
-  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+  const { data, content, wordCount, readingTime } = post;
+  const url = `${SITE_URL}/blog/${filename}`;
 
   const relatedPosts = data.category ? getRelatedPosts(filename, data.category, 3) : [];
   const { previous, next } = getAdjacentPosts(filename);
@@ -102,16 +97,16 @@ export default async function BlogPost({ params }: Props) {
     author: {
       "@type": "Person",
       name: "Dan Martinez",
-      url: "https://eldanmtz.com",
+      url: SITE_URL,
     },
     publisher: {
       "@type": "Person",
       name: "Dan Martinez",
     },
-    url: `https://eldanmtz.com/blog/${filename}`,
+    url,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://eldanmtz.com/blog/${filename}`,
+      "@id": url,
     },
     ...(data.image && { image: data.image }),
     ...(data.category && { articleSection: data.category }),
@@ -123,9 +118,9 @@ export default async function BlogPost({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Inicio", item: "https://eldanmtz.com" },
-      { "@type": "ListItem", position: 2, name: "Blog", item: "https://eldanmtz.com/blog" },
-      { "@type": "ListItem", position: 3, name: data.title, item: `https://eldanmtz.com/blog/${filename}` },
+      { "@type": "ListItem", position: 1, name: "Inicio", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+      { "@type": "ListItem", position: 3, name: data.title, item: url },
     ],
   };
 
@@ -147,7 +142,7 @@ export default async function BlogPost({ params }: Props) {
         {data.image && (
           <Image
             src={data.image}
-            alt={data.title}
+            alt={data.title || ""}
             width={800}
             height={400}
             className="post-image"
@@ -159,7 +154,7 @@ export default async function BlogPost({ params }: Props) {
 
         <div className="post-meta">
           <time dateTime={data.createdAt}>
-            {new Date(data.createdAt).toLocaleDateString("es-MX", {
+            {new Date(data.createdAt || "").toLocaleDateString("es-MX", {
               year: "numeric",
               month: "long",
               day: "numeric",
@@ -210,14 +205,14 @@ export default async function BlogPost({ params }: Props) {
         <div className="post-share">
           <span>Compartir:</span>
           <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(data.title)}&url=${encodeURIComponent(`https://eldanmtz.com/blog/${filename}`)}`}
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(data.title || "")}&url=${encodeURIComponent(url)}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             𝕏
           </a>
           <a
-            href={`https://wa.me/?text=${encodeURIComponent(`${data.title} https://eldanmtz.com/blog/${filename}`)}`}
+            href={`https://wa.me/?text=${encodeURIComponent(`${data.title || ""} ${url}`)}`}
             target="_blank"
             rel="noopener noreferrer"
           >

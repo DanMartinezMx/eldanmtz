@@ -15,10 +15,9 @@ interface Post {
 interface BlogFiltersProps {
   posts: Post[];
   grouped: Record<string, Post[]>;
-  sortedYears: string[];
 }
 
-export function BlogFilters({ posts, grouped, sortedYears }: BlogFiltersProps) {
+export function BlogFilters({ posts, grouped }: BlogFiltersProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const categories = Array.from(new Set(posts.map((p) => p.category).filter(Boolean)));

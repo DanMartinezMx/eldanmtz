@@ -12,12 +12,18 @@ export function ContributionsCalendar({ postDates }: CalendarProps) {
     const weeks = 52;
     const days: { date: string; count: number; dayOfWeek: number }[] = [];
 
+    // Tally posts per day once (O(posts)) instead of scanning the array per day.
+    const countByDate = new Map<string, number>();
+    for (const d of postDates) {
+      const day = d.slice(0, 10);
+      countByDate.set(day, (countByDate.get(day) ?? 0) + 1);
+    }
+
     for (let i = weeks * 7 - 1; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
       const dateStr = date.toISOString().split("T")[0];
-      const count = postDates.filter((d) => d.startsWith(dateStr)).length;
-      days.push({ date: dateStr, count, dayOfWeek: date.getDay() });
+      days.push({ date: dateStr, count: countByDate.get(dateStr) ?? 0, dayOfWeek: date.getDay() });
     }
 
     const weekColumns: typeof days[] = [];
