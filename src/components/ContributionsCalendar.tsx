@@ -6,46 +6,63 @@ interface CalendarProps {
   postDates: string[];
 }
 
-export function ContributionsCalendar({ postDates }: CalendarProps) {
-  const { weekColumns, monthLabels } = useMemo(() => {
-    const today = new Date();
-    const weeks = 52;
-    const days: { date: string; count: number; dayOfWeek: number }[] = [];
+type Day = { date: string; count: number };
 
-    // Tally posts per day once (O(posts)) instead of scanning the array per day.
+const MONTHS = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+const WEEKS = 52;
+
+export function ContributionsCalendar({ postDates }: CalendarProps) {
+  const { weekColumns, monthLabels, total } = useMemo(() => {
+    // Tally posts per day once. Post dates are ISO (UTC), so work in UTC throughout.
     const countByDate = new Map<string, number>();
     for (const d of postDates) {
       const day = d.slice(0, 10);
       countByDate.set(day, (countByDate.get(day) ?? 0) + 1);
     }
 
-    for (let i = weeks * 7 - 1; i >= 0; i--) {
-      const date = new Date(today);
-      date.setDate(date.getDate() - i);
-      const dateStr = date.toISOString().split("T")[0];
-      days.push({ date: dateStr, count: countByDate.get(dateStr) ?? 0, dayOfWeek: date.getDay() });
+    const now = new Date();
+    const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+
+    // Start on the Sunday of the week WEEKS ago, so every column is a real
+    // Sun–Sat calendar week and the weekday row labels (Lun/Mié/Vie) line up.
+    const start = new Date(today);
+    start.setUTCDate(today.getUTCDate() - today.getUTCDay() - WEEKS * 7);
+
+    const weekColumns: (Day | null)[][] = [];
+    const cursor = new Date(start);
+    while (cursor <= today) {
+      const week: (Day | null)[] = [];
+      for (let d = 0; d < 7; d++) {
+        if (cursor > today) {
+          week.push(null); // future days in the current (partial) week
+        } else {
+          const date = cursor.toISOString().slice(0, 10);
+          week.push({ date, count: countByDate.get(date) ?? 0 });
+        }
+        cursor.setUTCDate(cursor.getUTCDate() + 1);
+      }
+      weekColumns.push(week);
     }
 
-    const weekColumns: typeof days[] = [];
-    for (let i = 0; i < days.length; i += 7) {
-      weekColumns.push(days.slice(i, i + 7));
-    }
-
-    // Calculate month labels with their position
+    // Place a month label at the first column whose week starts a new month.
     const monthLabels: { label: string; col: number }[] = [];
-    const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
     let lastMonth = -1;
-
     weekColumns.forEach((week, i) => {
-      const firstDay = new Date(week[0].date);
-      const month = firstDay.getMonth();
+      const first = week.find(Boolean);
+      if (!first) return;
+      const month = new Date(first.date).getUTCMonth();
       if (month !== lastMonth) {
-        monthLabels.push({ label: months[month], col: i });
+        monthLabels.push({ label: MONTHS[month], col: i });
         lastMonth = month;
       }
     });
 
-    return { weekColumns, monthLabels };
+    let total = 0;
+    for (const week of weekColumns) {
+      for (const day of week) total += day?.count ?? 0;
+    }
+
+    return { weekColumns, monthLabels, total };
   }, [postDates]);
 
   const getColor = (count: number) => {
@@ -62,7 +79,7 @@ export function ContributionsCalendar({ postDates }: CalendarProps) {
       <h3 className="calendar-title">Actividad</h3>
 
       {/* Month labels — same flex track as the grid so columns line up */}
-      <div className="calendar-months">
+      <div className="calendar-months" aria-hidden="true">
         <div className="calendar-day-label-spacer" />
         <div className="calendar-months-track">
           {weekColumns.map((_, i) => {
@@ -78,7 +95,7 @@ export function ContributionsCalendar({ postDates }: CalendarProps) {
 
       <div className="calendar-container">
         {/* Day-of-week labels */}
-        <div className="calendar-day-labels">
+        <div className="calendar-day-labels" aria-hidden="true">
           {dayLabels.map((label, i) => (
             <div key={i} className="calendar-day-label">
               {label}
@@ -86,18 +103,26 @@ export function ContributionsCalendar({ postDates }: CalendarProps) {
           ))}
         </div>
 
-        {/* Grid */}
-        <div className="calendar-grid">
+        {/* Grid — exposed to screen readers as a single labelled image */}
+        <div
+          className="calendar-grid"
+          role="img"
+          aria-label={`Calendario de actividad: ${total} ${total === 1 ? "publicación" : "publicaciones"} en el último año`}
+        >
           {weekColumns.map((week, wi) => (
             <div key={wi} className="calendar-week">
-              {week.map((day) => (
-                <div
-                  key={day.date}
-                  className="calendar-day"
-                  title={`${day.date}: ${day.count} post${day.count !== 1 ? "s" : ""}`}
-                  style={{ background: getColor(day.count) }}
-                />
-              ))}
+              {week.map((day, di) =>
+                day ? (
+                  <div
+                    key={day.date}
+                    className="calendar-day"
+                    title={`${day.date}: ${day.count} post${day.count !== 1 ? "s" : ""}`}
+                    style={{ background: getColor(day.count) }}
+                  />
+                ) : (
+                  <div key={`empty-${wi}-${di}`} className="calendar-day calendar-day-empty" />
+                )
+              )}
             </div>
           ))}
         </div>

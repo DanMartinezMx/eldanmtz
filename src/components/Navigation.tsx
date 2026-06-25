@@ -7,18 +7,7 @@ import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { SearchDialog } from "./SearchDialog";
 
-interface SearchItem {
-  title: string;
-  description: string;
-  category: string;
-  slug: string;
-}
-
-interface NavigationProps {
-  searchIndex?: SearchItem[];
-}
-
-export function Navigation({ searchIndex = [] }: NavigationProps) {
+export function Navigation() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -69,7 +58,7 @@ export function Navigation({ searchIndex = [] }: NavigationProps) {
           />
         </Link>
 
-        <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
+        <nav id="nav-menu" className={`nav-links ${menuOpen ? "open" : ""}`}>
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -81,7 +70,7 @@ export function Navigation({ searchIndex = [] }: NavigationProps) {
             </Link>
           ))}
           <div className="nav-search-mobile">
-            <SearchDialog posts={searchIndex} />
+            <SearchDialog />
           </div>
           <div className="nav-socials-mobile">
             {socials}
@@ -89,14 +78,16 @@ export function Navigation({ searchIndex = [] }: NavigationProps) {
         </nav>
 
         <div className="nav-socials">
-          <SearchDialog posts={searchIndex} />
+          <SearchDialog />
           {socials}
         </div>
 
         <button
           className="nav-hamburger"
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
+          aria-label="Abrir menú"
+          aria-expanded={menuOpen}
+          aria-controls="nav-menu"
         >
           <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
           <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />

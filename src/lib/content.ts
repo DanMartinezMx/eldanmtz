@@ -2,8 +2,11 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { cache } from "react";
-import GithubSlugger from "github-slugger";
 import { WORDS_PER_MINUTE } from "./config";
+
+// Heading/markdown helpers live in a framework-free module so they can be unit-tested.
+export { extractHeadings, stripInlineMarkdown } from "./headings";
+export type { Heading } from "./headings";
 
 export interface Post {
     title: string;
@@ -142,45 +145,6 @@ export function getAdjacentPosts(currentSlug: string): {
         : null;
 
     return { previous, next };
-}
-
-/** Remove inline markdown (code, links, emphasis) so TOC text and IDs match the rendered heading. */
-function stripInlineMarkdown(text: string): string {
-    return text
-        .replace(/`([^`]+)`/g, "$1")            // `code`
-        .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // [text](url)
-        .replace(/(\*\*|__)(.+?)\1/g, "$2")      // **bold** / __bold__
-        .replace(/(\*|_)(.+?)\1/g, "$2")         // *italic* / _italic_
-        .trim();
-}
-
-/**
- * Extract `##`/`###` headings for the table of contents.
- *
- * IDs are generated with `github-slugger` — the same library `rehype-slug`
- * uses when rendering the MDX — so TOC anchors match the IDs on the actual
- * headings, including accented Spanish characters (e.g. "configuración").
- * Using a fresh slugger per call mirrors rehype-slug's per-document duplicate
- * handling. Fenced code blocks are stripped first so `##` comments inside code
- * samples don't become phantom entries.
- */
-export function extractHeadings(content: string): { id: string; text: string; level: number }[] {
-    const slugger = new GithubSlugger();
-    const withoutCode = content
-        .replace(/```[\s\S]*?```/g, "")
-        .replace(/~~~[\s\S]*?~~~/g, "");
-
-    const headingRegex = /^(#{2,3})\s+(.+)$/gm;
-    const headings: { id: string; text: string; level: number }[] = [];
-    let match;
-
-    while ((match = headingRegex.exec(withoutCode)) !== null) {
-        const level = match[1].length;
-        const text = stripInlineMarkdown(match[2].trim());
-        headings.push({ id: slugger.slug(text), text, level });
-    }
-
-    return headings;
 }
 
 export const getMicroblog = cache((): MicroblogEntry[] => {

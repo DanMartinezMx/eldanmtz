@@ -1,4 +1,4 @@
-import { getPosts, getMicroblog } from "@/lib/content";
+import { getPosts, getMicroblog, stripInlineMarkdown } from "@/lib/content";
 import { ConnieSection } from "@/components/ConnieSection";
 import Link from "next/link";
 
@@ -80,24 +80,27 @@ export default function Home() {
           <h2>Microblog</h2>
           {recentMicroblog.length > 0 ? (
             <div className="microblog-timeline">
-              {recentMicroblog.map((post, i) => (
-                <div key={i} className="micro-entry">
-                  <div className="micro-dot" />
-                  <div className="micro-content">
-                    <strong>{post.title}</strong>
-                    {post.body && <p>{post.body.slice(0, 140)}{post.body.length > 140 ? "..." : ""}</p>}
-                    <time>
-                      {new Date(post.createdAt).toLocaleDateString("es-MX", {
-                        month: "short",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        timeZone: "America/Mexico_City",
-                      })}
-                    </time>
+              {recentMicroblog.map((post, i) => {
+                const body = stripInlineMarkdown(post.body);
+                return (
+                  <div key={i} className="micro-entry">
+                    <div className="micro-dot" />
+                    <div className="micro-content">
+                      <strong>{post.title}</strong>
+                      {body && <p>{body.slice(0, 140)}{body.length > 140 ? "..." : ""}</p>}
+                      <time>
+                        {new Date(post.createdAt).toLocaleDateString("es-MX", {
+                          month: "short",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          timeZone: "America/Mexico_City",
+                        })}
+                      </time>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <p className="empty">Próximamente...</p>

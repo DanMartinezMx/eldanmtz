@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "TINA_PUBLIC_IS_LOCAL=true tinacms dev -c \"next dev\"",
     "validate": "node scripts/validate-content.mjs",
+    "test": "node --disable-warning=ExperimentalWarning --experimental-strip-types --test \"tests/**/*.test.ts\"",
     "prebuild": "node scripts/validate-content.mjs",
     "build": "tinacms build --skip-cloud-checks && next build",
     "start": "next start",
