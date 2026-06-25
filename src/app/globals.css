@@ -220,7 +220,7 @@ a:hover {
    ============================================= */
 
 .home-recent {
-  margin-bottom: 2.5rem;
+  min-width: 0;
 }
 
 .section-header {
@@ -251,7 +251,7 @@ a:hover {
 
 .recent-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
@@ -317,7 +317,7 @@ a:hover {
 }
 
 /* =============================================
-   HOMEPAGE — ACTIVITY ROW (Calendar + Microblog)
+   HOMEPAGE — ACTIVITY ROW (Posts Recientes + Microblog)
    ============================================= */
 
 .home-activity-row {
@@ -326,10 +326,6 @@ a:hover {
   gap: 2rem;
   margin-bottom: 2.5rem;
   align-items: start;
-}
-
-.home-calendar {
-  min-width: 0;
 }
 
 .home-microblog h2 {
@@ -480,6 +476,9 @@ a:hover {
 .calendar-wrapper {
   padding-top: 2rem;
   border-top: 1px solid var(--border);
+  --cal-gap: 3px;          /* gap between day squares */
+  --cal-outer-gap: 4px;    /* gap between the day-of-week labels and the grid */
+  --cal-label-w: 28px;     /* width of the day-of-week labels column */
 }
 
 .calendar-title {
@@ -490,17 +489,26 @@ a:hover {
 
 .calendar-months {
   display: flex;
-  gap: 3px;
+  gap: var(--cal-outer-gap);
   margin-bottom: 4px;
 }
 
 .calendar-day-label-spacer {
-  width: 28px;
+  width: var(--cal-label-w);
   flex-shrink: 0;
 }
 
+/* Mirrors .calendar-grid so each month cell sits over its week column. */
+.calendar-months-track {
+  display: flex;
+  gap: var(--cal-gap);
+  flex: 1;
+  min-width: 0;
+}
+
 .calendar-month-cell {
-  width: 12px;
+  flex: 1 1 0;
+  min-width: 0;
   font-size: 0.6rem;
   color: var(--text-muted);
   text-align: left;
@@ -510,40 +518,44 @@ a:hover {
 
 .calendar-container {
   display: flex;
-  gap: 4px;
+  gap: var(--cal-outer-gap);
 }
 
 .calendar-day-labels {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  width: 28px;
+  gap: var(--cal-gap);
+  width: var(--cal-label-w);
   flex-shrink: 0;
 }
 
 .calendar-day-label {
-  height: 12px;
+  flex: 1 1 0;
   font-size: 0.6rem;
   color: var(--text-muted);
   display: flex;
   align-items: center;
 }
 
+/* No overflow/scroll: 52 week columns share the available width equally. */
 .calendar-grid {
   display: flex;
-  gap: 3px;
-  overflow-x: auto;
+  gap: var(--cal-gap);
+  flex: 1;
+  min-width: 0;
 }
 
 .calendar-week {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: var(--cal-gap);
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .calendar-day {
-  width: 12px;
-  height: 12px;
+  width: 100%;
+  aspect-ratio: 1;
   border-radius: 2px;
 }
 
@@ -553,6 +565,7 @@ a:hover {
 
 .blog-page {
   max-width: 800px;
+  margin: 0 auto;
 }
 
 .blog-layout {
@@ -1225,6 +1238,10 @@ a:hover {
   margin-bottom: 2rem;
   text-align: center;
   font-size: 0.9rem;
+}
+
+.now-calendar {
+  margin-bottom: 2.5rem;
 }
 
 .now-grid {

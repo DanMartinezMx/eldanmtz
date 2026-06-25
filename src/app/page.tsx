@@ -1,5 +1,4 @@
-import { getPosts, getMicroblog, getAllDates } from "@/lib/content";
-import { ContributionsCalendar } from "@/components/ContributionsCalendar";
+import { getPosts, getMicroblog } from "@/lib/content";
 import { ConnieSection } from "@/components/ConnieSection";
 import Link from "next/link";
 
@@ -8,7 +7,6 @@ export default function Home() {
   const allMicroblog = getMicroblog();
   const recentPosts = allPosts.slice(0, 6);
   const recentMicroblog = allMicroblog.slice(0, 10);
-  const allDates = getAllDates();
 
   const conniePosts = allPosts.filter((p) => p.category === "Connie").slice(0, 3);
 
@@ -39,48 +37,45 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <section className="home-recent">
-        <div className="section-header">
-          <h2>Posts Recientes</h2>
-          <Link href="/blog" className="see-all">Ver todos →</Link>
-        </div>
-        {recentPosts.length > 0 ? (
-          <div className="recent-grid">
-            {recentPosts.map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`} className="recent-card">
-                <div className="recent-card-top">
-                  <span className="recent-card-category">{post.category}</span>
-                  <time>
-                    {new Date(post.createdAt).toLocaleDateString("es-MX", {
-                      month: "short",
-                      day: "numeric",
-                      timeZone: "America/Mexico_City",
-                    })}
-                  </time>
-                </div>
-                <h3 className="recent-card-title">{post.title}</h3>
-                {post.description && (
-                  <p className="recent-card-description">
-                    {post.description.length > 100
-                      ? post.description.slice(0, 100) + "..."
-                      : post.description}
-                  </p>
-                )}
-                <div className="recent-card-footer">
-                  <span>☕ {post.readingTime} min de lectura</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <p className="empty">Próximamente...</p>
-        )}
-      </section>
-
       <section className="home-activity-row">
-        <div className="home-calendar">
-          <ContributionsCalendar postDates={allDates} />
+        <div className="home-recent">
+          <div className="section-header">
+            <h2>Posts Recientes</h2>
+            <Link href="/blog" className="see-all">Ver todos →</Link>
+          </div>
+          {recentPosts.length > 0 ? (
+            <div className="recent-grid">
+              {recentPosts.map((post) => (
+                <Link key={post.slug} href={`/blog/${post.slug}`} className="recent-card">
+                  <div className="recent-card-top">
+                    <span className="recent-card-category">{post.category}</span>
+                    <time>
+                      {new Date(post.createdAt).toLocaleDateString("es-MX", {
+                        month: "short",
+                        day: "numeric",
+                        timeZone: "America/Mexico_City",
+                      })}
+                    </time>
+                  </div>
+                  <h3 className="recent-card-title">{post.title}</h3>
+                  {post.description && (
+                    <p className="recent-card-description">
+                      {post.description.length > 100
+                        ? post.description.slice(0, 100) + "..."
+                        : post.description}
+                    </p>
+                  )}
+                  <div className="recent-card-footer">
+                    <span>☕ {post.readingTime} min de lectura</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="empty">Próximamente...</p>
+          )}
         </div>
+
         <div className="home-microblog">
           <h2>Microblog</h2>
           {recentMicroblog.length > 0 ? (

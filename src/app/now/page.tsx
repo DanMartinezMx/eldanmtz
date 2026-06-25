@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { getAllDates } from "@/lib/content";
+import { ContributionsCalendar } from "@/components/ContributionsCalendar";
 
 export const metadata: Metadata = {
   title: "Enfoque",
@@ -14,6 +16,8 @@ export const metadata: Metadata = {
 };
 
 export default function NowPage() {
+  const allDates = getAllDates();
+
   const focusItems = [
     {
       emoji: "🎯",
@@ -45,6 +49,10 @@ export default function NowPage() {
     <div className="now-page">
       <h1>Enfoque</h1>
       <p className="now-subtitle">Esto es en lo que estoy metido actualmente.</p>
+
+      <div className="now-calendar">
+        <ContributionsCalendar postDates={allDates} />
+      </div>
 
       <div className="now-grid">
         {focusItems.map((section) => (

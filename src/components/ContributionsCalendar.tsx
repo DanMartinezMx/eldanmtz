@@ -61,17 +61,19 @@ export function ContributionsCalendar({ postDates }: CalendarProps) {
     <div className="calendar-wrapper">
       <h3 className="calendar-title">Actividad</h3>
 
-      {/* Month labels */}
+      {/* Month labels — same flex track as the grid so columns line up */}
       <div className="calendar-months">
         <div className="calendar-day-label-spacer" />
-        {weekColumns.map((_, i) => {
-          const label = monthLabels.find((m) => m.col === i);
-          return (
-            <div key={i} className="calendar-month-cell">
-              {label ? label.label : ""}
-            </div>
-          );
-        })}
+        <div className="calendar-months-track">
+          {weekColumns.map((_, i) => {
+            const label = monthLabels.find((m) => m.col === i);
+            return (
+              <div key={i} className="calendar-month-cell">
+                {label ? label.label : ""}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className="calendar-container">
