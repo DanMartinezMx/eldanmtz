@@ -1,3 +1,4 @@
+// Per-post Open Graph image (title/description card), generated on the fly with next/og.
 import { ImageResponse } from "next/og";
 import fs from "fs";
 import path from "path";

@@ -11,6 +11,7 @@ type Day = { date: string; count: number };
 const MONTHS = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 const WEEKS = 52;
 
+/** GitHub-style activity heatmap of the last ~52 weeks, aligned to real Sun–Sat calendar weeks. */
 export function ContributionsCalendar({ postDates }: CalendarProps) {
   const { weekColumns, monthLabels, total } = useMemo(() => {
     // Tally posts per day once. Post dates are ISO (UTC), so work in UTC throughout.

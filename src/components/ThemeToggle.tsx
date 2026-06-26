@@ -24,6 +24,7 @@ function getServerSnapshot(): Theme {
     return "dark";
 }
 
+/** Dark/light toggle. The `data-theme` attribute (set pre-paint in layout.tsx) is the source of truth. */
 export function ThemeToggle() {
     const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 

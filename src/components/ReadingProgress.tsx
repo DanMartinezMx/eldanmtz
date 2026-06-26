@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+/** Thin bar across the top of a post that tracks how far the reader has scrolled. */
 export function ReadingProgress() {
     const [progress, setProgress] = useState(0);
 

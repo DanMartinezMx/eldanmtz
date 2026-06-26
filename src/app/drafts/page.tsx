@@ -1,3 +1,4 @@
+// Drafts index (/drafts): lists draft posts for local preview. noindex; not linked publicly.
 import type { Metadata } from "next";
 import { getDrafts } from "@/lib/content";
 import Link from "next/link";

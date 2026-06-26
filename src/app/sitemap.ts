@@ -1,3 +1,4 @@
+// Sitemap (/sitemap.xml): static pages + category archives (with posts) + every published post.
 import { getPosts } from "@/lib/content";
 import { CATEGORIES, SITE_URL, categoryToSlug } from "@/lib/config";
 import type { MetadataRoute } from "next";

@@ -1,6 +1,7 @@
 import { Callout } from "./Callout";
 import { MDXImage } from "./MDXImage";
 
+/** Components made available inside MDX content (passed to `<MDXRemote components={…}>`). */
 export const mdxComponents = {
     Callout,
     Tip: ({ children, title }: { children: React.ReactNode; title?: string }) => (

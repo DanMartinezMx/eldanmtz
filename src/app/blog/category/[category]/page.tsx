@@ -1,3 +1,4 @@
+// Category archive (/blog/category/[category]): lists posts in one category.
 import type { Metadata } from "next";
 import { getPosts } from "@/lib/content";
 import { CATEGORIES, SITE_URL, categoryToSlug } from "@/lib/config";

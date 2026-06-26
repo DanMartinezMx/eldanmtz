@@ -5,6 +5,7 @@ interface PostNavProps {
     nextPost: { slug: string; title: string } | null;
 }
 
+/** Previous/next links at the foot of a post. Renders nothing when both neighbours are absent. */
 export function PostNavigation({ previousPost, nextPost }: PostNavProps) {
     if (!previousPost && !nextPost) return null;
 

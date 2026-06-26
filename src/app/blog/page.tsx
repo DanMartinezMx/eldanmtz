@@ -1,3 +1,4 @@
+// Blog index (/blog): groups published posts by year and renders the category filter.
 import type { Metadata } from "next";
 import { getPosts } from "@/lib/content";
 import { BlogFilters } from "@/components/BlogFilters";

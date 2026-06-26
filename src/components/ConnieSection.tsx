@@ -5,6 +5,7 @@ interface ConnieSectionProps {
     posts: Post[];
 }
 
+/** Home-page section highlighting the "Connie" (Confluence Cloud) series; hidden when there are none. */
 export function ConnieSection({ posts }: ConnieSectionProps) {
     if (posts.length === 0) return null;
 

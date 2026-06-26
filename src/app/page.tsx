@@ -1,3 +1,4 @@
+// Home page (/): recent posts + microblog timeline side by side, then the Connie series.
 import { getPosts, getMicroblog, stripInlineMarkdown } from "@/lib/content";
 import { ConnieSection } from "@/components/ConnieSection";
 import Link from "next/link";

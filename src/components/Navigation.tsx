@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { SearchDialog } from "./SearchDialog";
 
+/** Site header: nav links (with active state), mobile menu, social icons, and the search trigger. */
 export function Navigation() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);

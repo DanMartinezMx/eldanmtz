@@ -1,3 +1,4 @@
+// 404 page: friendly not-found with links back into the site.
 import Link from "next/link";
 import { getPosts } from "@/lib/content";
 

@@ -1,3 +1,4 @@
+// Draft preview (/drafts/[filename]): renders a single draft post. noindex; 404s non-drafts.
 import Link from "next/link";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";

@@ -7,6 +7,7 @@ interface MDXImageProps {
     height?: number;
 }
 
+/** Image renderer for MDX: next/image for local images, a plain <img> for external ones. */
 export function MDXImage({ src, alt, width, height }: MDXImageProps) {
     if (!src) return null;
 

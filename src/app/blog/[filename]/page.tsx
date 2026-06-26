@@ -1,3 +1,5 @@
+// Single blog post (/blog/[filename]): renders the MDX body plus TOC, series nav,
+// related posts, share links, subscribe CTA, and JSON-LD. Statically generated per post.
 import Link from "next/link";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";

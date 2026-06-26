@@ -18,6 +18,7 @@ const defaultTitles: Record<string, string> = {
     danger: "Importante",
 };
 
+/** Admonition box for MDX (tip/warning/note/danger) with an icon and optional title. */
 export function Callout({ type = "note", title, children }: CalloutProps) {
     return (
         <div className={`callout callout-${type}`}>

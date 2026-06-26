@@ -1,3 +1,4 @@
+// About page (/about): bio cards + the "stack" (hardware/dev/apps/gaming) grid.
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

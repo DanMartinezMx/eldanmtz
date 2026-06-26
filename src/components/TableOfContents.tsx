@@ -12,6 +12,7 @@ interface TableOfContentsProps {
     headings: TocItem[];
 }
 
+/** Post table of contents with scroll-spy (highlights the section in view). Hidden under 3 headings. */
 export function TableOfContents({ headings }: TableOfContentsProps) {
     const [activeId, setActiveId] = useState("");
 

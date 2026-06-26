@@ -10,6 +10,7 @@ interface SearchItem {
     slug: string;
 }
 
+/** ⌘K / Ctrl+K search. Lazily fetches /search-index.json on first open; arrow-key navigable. */
 export function SearchDialog() {
     const router = useRouter();
     const [open, setOpen] = useState(false);

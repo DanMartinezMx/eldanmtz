@@ -1,3 +1,4 @@
+// Root layout: <html>/<body>, site metadata, pre-paint theme script, nav, footer, analytics.
 import type { Metadata } from "next";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";

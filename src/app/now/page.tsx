@@ -1,3 +1,4 @@
+// "Enfoque" page (/now): what I'm currently focused on, plus the activity calendar.
 import type { Metadata } from "next";
 import { getAllDates } from "@/lib/content";
 import { ContributionsCalendar } from "@/components/ContributionsCalendar";

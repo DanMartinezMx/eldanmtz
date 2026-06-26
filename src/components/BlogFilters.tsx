@@ -17,6 +17,7 @@ interface BlogFiltersProps {
   grouped: Record<string, Post[]>;
 }
 
+/** Client-side category chips that filter the year-grouped post grid on /blog. */
 export function BlogFilters({ posts, grouped }: BlogFiltersProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 

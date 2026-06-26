@@ -1,3 +1,4 @@
+/** Site footer: copyright line plus an RSS link. */
 export function Footer() {
   return (
     <footer className="site-footer">

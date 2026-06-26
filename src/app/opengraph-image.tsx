@@ -1,3 +1,4 @@
+// Default Open Graph image for the site, generated on the fly with next/og.
 import { ImageResponse } from "next/og";
 
 export const runtime = "nodejs";

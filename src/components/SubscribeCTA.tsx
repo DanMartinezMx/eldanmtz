@@ -1,3 +1,4 @@
+/** Newsletter call-to-action; posts to Buttondown (allowed by `form-action` in next.config.ts). */
 export function SubscribeCTA() {
     return (
         <section className="subscribe-cta">

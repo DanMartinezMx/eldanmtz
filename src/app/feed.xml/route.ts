@@ -1,3 +1,4 @@
+// RSS feed (/feed.xml): published posts as RSS 2.0, cached at the edge.
 import { getPosts } from "@/lib/content";
 import { SITE_URL } from "@/lib/config";
 

@@ -5,6 +5,10 @@ Personal blog — _Lo que pasa cuando cierras la laptop._
 A statically-generated Next.js blog. Posts and microblog entries are MDX files
 in [`content/`](content/), edited either by hand or through TinaCMS.
 
+> **New here?** Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how the whole
+> thing fits together, and [CONTRIBUTING.md](CONTRIBUTING.md) for the day-to-day
+> workflow (adding posts, running checks, deploying).
+
 ## Tech Stack
 
 - **Framework:** Next.js 16 (App Router, React 19)
@@ -119,12 +123,18 @@ src/
                   feed.xml, sitemap, robots, OG images)
   components/     UI components (Navigation, Search, TOC, calendar, MDX, …)
   lib/
-    content.ts    Reads & parses MDX, derives posts/series/headings (cached)
+    content.ts    Reads & parses MDX, derives posts/series (cached)
+    headings.ts   TOC heading extraction + markdown stripping (pure, tested)
     config.ts     SITE_URL, CATEGORIES, reading-speed constants
 content/          MDX posts + microblog entries
 scripts/          validate-content.mjs (frontmatter checks)
+tests/            Unit tests (node:test)
 tina/             TinaCMS schema & generated client
+docs/             ARCHITECTURE.md and other deep-dive docs
 ```
+
+For the full picture — data flow, every route/component, conventions, and
+gotchas — see **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
 
 ## Deployment
 
