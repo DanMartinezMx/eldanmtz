@@ -5,10 +5,12 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
 import { extractHeadings, getPostBySlug } from "@/lib/content";
 import { mdxComponents } from "@/components/mdx";
 import { TableOfContents } from "@/components/TableOfContents";
 import { ReadingProgress } from "@/components/ReadingProgress";
+import { CodeCopyButtons } from "@/components/CodeCopyButtons";
 
 interface Props {
   params: Promise<{ filename: string }>;
@@ -47,6 +49,7 @@ export default async function DraftPost({ params }: Props) {
             width={800}
             height={400}
             className="post-image"
+            sizes="(max-width: 800px) 100vw, 800px"
             priority
           />
         )}
@@ -77,6 +80,7 @@ export default async function DraftPost({ params }: Props) {
             components={mdxComponents}
             options={{
               mdxOptions: {
+                remarkPlugins: [remarkGfm],
                 rehypePlugins: [
                   rehypeSlug,
                   [rehypePrettyCode, {
@@ -88,6 +92,7 @@ export default async function DraftPost({ params }: Props) {
             }}
           />
         </div>
+        <CodeCopyButtons />
       </article>
     </>
   );

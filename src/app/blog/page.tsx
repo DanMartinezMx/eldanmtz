@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getPosts } from "@/lib/content";
 import { BlogFilters } from "@/components/BlogFilters";
+import { MostRead } from "@/components/MostRead";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -28,6 +29,7 @@ export default function BlogPage() {
 
   return (
     <div className="blog-page">
+      <MostRead />
       <div className="blog-layout">
         <BlogFilters posts={posts} grouped={grouped} />
       </div>

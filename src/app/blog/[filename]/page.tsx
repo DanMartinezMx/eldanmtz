@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
 import { getRelatedPosts, getPostsInSeries, getConnieSeries, getAdjacentPosts, extractHeadings, getPostBySlug, getPosts } from "@/lib/content";
 import { SITE_URL } from "@/lib/config";
 import { mdxComponents } from "@/components/mdx";
@@ -12,6 +13,8 @@ import { TableOfContents } from "@/components/TableOfContents";
 import { PostNavigation } from "@/components/PostNavigation";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { SubscribeCTA } from "@/components/SubscribeCTA";
+import { CodeCopyButtons } from "@/components/CodeCopyButtons";
+import { ViewCounter } from "@/components/ViewCounter";
 
 interface Props {
   params: Promise<{ filename: string }>;
@@ -146,6 +149,7 @@ export default async function BlogPost({ params }: Props) {
             width={800}
             height={400}
             className="post-image"
+            sizes="(max-width: 800px) 100vw, 800px"
             priority
           />
         )}
@@ -163,6 +167,18 @@ export default async function BlogPost({ params }: Props) {
           </time>
           {data.category && <span className="post-category">{data.category}</span>}
           <span className="reading-time">☕ {readingTime} min de lectura</span>
+          <ViewCounter slug={filename} />
+          {data.updatedAt && data.updatedAt.split("T")[0] !== (data.createdAt || "").split("T")[0] && (
+            <span className="post-updated">
+              Actualizado el{" "}
+              {new Date(data.updatedAt).toLocaleDateString("es-MX", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                timeZone: "America/Mexico_City",
+              })}
+            </span>
+          )}
         </div>
 
         {seriesPosts.length > 1 && (
@@ -190,6 +206,7 @@ export default async function BlogPost({ params }: Props) {
             components={mdxComponents}
             options={{
               mdxOptions: {
+                remarkPlugins: [remarkGfm],
                 rehypePlugins: [
                   rehypeSlug,
                   [rehypePrettyCode, {
@@ -201,6 +218,7 @@ export default async function BlogPost({ params }: Props) {
             }}
           />
         </div>
+        <CodeCopyButtons />
 
         <div className="post-share">
           <span>Compartir:</span>

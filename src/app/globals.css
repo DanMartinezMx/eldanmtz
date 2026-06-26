@@ -1919,3 +1919,116 @@ a:hover {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* =============================================
+   POST META EXTRAS (views, updated date)
+   ============================================= */
+
+.post-meta {
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
+}
+
+.post-updated {
+  font-style: italic;
+}
+
+/* =============================================
+   TABLE OF CONTENTS — ACTIVE SECTION
+   ============================================= */
+
+.toc-item a.active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* =============================================
+   CODE BLOCK — COPY BUTTON
+   ============================================= */
+
+.post-content pre {
+  position: relative;
+}
+
+.code-copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem;
+  font-family: inherit;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.post-content pre:hover .code-copy-btn,
+.code-copy-btn:hover,
+.code-copy-btn:focus-visible,
+.code-copy-btn.copied {
+  opacity: 1;
+}
+
+.code-copy-btn:hover,
+.code-copy-btn.copied {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* =============================================
+   MÁS LEÍDOS (most read)
+   ============================================= */
+
+.most-read {
+  margin-bottom: 2rem;
+  padding: 1.25rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.most-read h2 {
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+}
+
+.most-read-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.most-read-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.most-read-count {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+/* =============================================
+   REDUCED MOTION — respect the OS setting
+   ============================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

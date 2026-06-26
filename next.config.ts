@@ -43,7 +43,7 @@ const nextConfig: NextConfig = {
       "connect-src 'self' https://content.tinajs.io https://identity.tinajs.io https://assets.tina.io https://media.tinajs.io https://*.tinajs.io https://*.tina.io https://s3.us-east-1.amazonaws.com https://*.amazonaws.com https://vitals.vercel-insights.com https://va.vercel-scripts.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
-      "form-action 'self'",
+      "form-action 'self' https://buttondown.email",
     ].join("; ");
 
     // Stricter CSP for the public site: no 'unsafe-eval' and no unpkg. Inline
@@ -57,7 +57,7 @@ const nextConfig: NextConfig = {
       "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
-      "form-action 'self'",
+      "form-action 'self' https://buttondown.email",
     ].join("; ");
 
     return [
