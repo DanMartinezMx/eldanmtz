@@ -43,7 +43,6 @@ the defaults are fine and these can be left empty:
 | `NEXT_PUBLIC_TINA_CLIENT_ID` | TinaCMS Cloud          | Required for cloud editing / production admin.     |
 | `TINA_TOKEN`                 | TinaCMS Cloud          | Required for cloud editing / production admin.     |
 | `TINA_PUBLIC_IS_LOCAL`       | `dev` script           | Set automatically to `true` by `npm run dev`.      |
-| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Post view counts | Optional. Auto-added by a Vercel KV store; enables view counts + "Más leídos". |
 
 `.env` is git-ignored — never commit tokens.
 
@@ -126,18 +125,6 @@ content/          MDX posts + microblog entries
 scripts/          validate-content.mjs (frontmatter checks)
 tina/             TinaCMS schema & generated client
 ```
-
-## Post view counts (optional)
-
-Each post shows a view count, and `/blog` shows a "Más leídos" list. Counts are
-stored in a Redis sorted set via the [Vercel KV REST API](src/lib/kv.ts) and
-incremented client-side ([`ViewCounter`](src/components/ViewCounter.tsx) → POST
-[`/api/views/[slug]`](src/app/api/views/[slug]/route.ts)). It degrades gracefully:
-**with no KV store configured, the counter and list simply don't render.**
-
-To enable: create a **KV store** in Vercel (Storage → KV/Upstash) and connect it
-to the project — that injects `KV_REST_API_URL` / `KV_REST_API_TOKEN`. Nothing
-else is required; counts start accruing on the next deploy.
 
 ## Deployment
 

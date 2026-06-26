@@ -1921,7 +1921,7 @@ a:hover {
 }
 
 /* =============================================
-   POST META EXTRAS (views, updated date)
+   POST META EXTRAS (updated date)
    ============================================= */
 
 .post-meta {
@@ -1977,44 +1977,6 @@ a:hover {
 .code-copy-btn.copied {
   color: var(--accent);
   border-color: var(--accent);
-}
-
-/* =============================================
-   MÁS LEÍDOS (most read)
-   ============================================= */
-
-.most-read {
-  margin-bottom: 2rem;
-  padding: 1.25rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
-
-.most-read h2 {
-  font-size: 1rem;
-  margin: 0 0 0.75rem;
-}
-
-.most-read-list {
-  margin: 0;
-  padding-left: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.most-read-list li {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  font-size: 0.9rem;
-}
-
-.most-read-count {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  white-space: nowrap;
 }
 
 /* =============================================

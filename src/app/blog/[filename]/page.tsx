@@ -14,7 +14,6 @@ import { PostNavigation } from "@/components/PostNavigation";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { SubscribeCTA } from "@/components/SubscribeCTA";
 import { CodeCopyButtons } from "@/components/CodeCopyButtons";
-import { ViewCounter } from "@/components/ViewCounter";
 
 interface Props {
   params: Promise<{ filename: string }>;
@@ -167,7 +166,6 @@ export default async function BlogPost({ params }: Props) {
           </time>
           {data.category && <span className="post-category">{data.category}</span>}
           <span className="reading-time">☕ {readingTime} min de lectura</span>
-          <ViewCounter slug={filename} />
           {data.updatedAt && data.updatedAt.split("T")[0] !== (data.createdAt || "").split("T")[0] && (
             <span className="post-updated">
               Actualizado el{" "}
